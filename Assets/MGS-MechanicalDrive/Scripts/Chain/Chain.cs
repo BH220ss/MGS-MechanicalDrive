@@ -1,5 +1,5 @@
-/*************************************************************************
- *  Copyright (C), 2017-2018, Mogoson Tech. Co., Ltd.
+﻿/*************************************************************************
+ *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  Chain.cs
  *  Description  :  Define Chain component.
@@ -10,12 +10,12 @@
  *  Description  :  Initial development version.
  *************************************************************************/
 
-using Developer.AnimationCurveExtension;
+using Mogoson.Curve;
 using UnityEngine;
 
-namespace Developer.MechanicalDrive
+namespace Mogoson.MechanicalDrive
 {
-    [AddComponentMenu("Developer/MechanicalDrive/Chain")]
+    [AddComponentMenu("Mogoson/MechanicalDrive/Chain")]
     public class Chain : Mechanism
     {
         #region Property and Field
@@ -98,7 +98,7 @@ namespace Developer.MechanicalDrive
         public virtual void CreateCurve()
         {
             curve = new VectorAnimationCurve();
-            curve.preWrapMode = curve.postWrapMode = WrapMode.Loop;
+            curve.PreWrapMode = curve.PostWrapMode = WrapMode.Loop;
 
             //Add frame keys to curve.
             float time = 0;

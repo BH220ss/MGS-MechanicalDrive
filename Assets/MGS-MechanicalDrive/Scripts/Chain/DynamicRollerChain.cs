@@ -1,5 +1,5 @@
-/*************************************************************************
- *  Copyright (C), 2017-2018, Mogoson Tech. Co., Ltd.
+﻿/*************************************************************************
+ *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  DynamicRollerChain.cs
  *  Description  :  Define DynamicRollerChain component.
@@ -12,9 +12,9 @@
 
 using UnityEngine;
 
-namespace Developer.MechanicalDrive
+namespace Mogoson.MechanicalDrive
 {
-    [AddComponentMenu("Developer/MechanicalDrive/DynamicRollerChain")]
+    [AddComponentMenu("Mogoson/MechanicalDrive/DynamicRollerChain")]
     public class DynamicRollerChain : RollerChain
     {
         #region Public Method
@@ -26,7 +26,7 @@ namespace Developer.MechanicalDrive
         {
             CreateCurve();
 
-            var maxTime = curve[curve.length - 1].time;
+            var maxTime = curve[curve.Length - 1].time;
             if (Mathf.Abs(timer) >= maxTime)
                 timer -= maxTime;
 

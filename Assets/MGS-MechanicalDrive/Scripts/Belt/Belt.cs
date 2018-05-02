@@ -1,5 +1,5 @@
-/*************************************************************************
- *  Copyright (C), 2017-2018, Mogoson Tech. Co., Ltd.
+﻿/*************************************************************************
+ *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  Belt.cs
  *  Description  :  Define Belt component.
@@ -12,9 +12,9 @@
 
 using UnityEngine;
 
-namespace Developer.MechanicalDrive
+namespace Mogoson.MechanicalDrive
 {
-    [AddComponentMenu("Developer/MechanicalDrive/Belt")]
+    [AddComponentMenu("Mogoson/MechanicalDrive/Belt")]
     [RequireComponent(typeof(Renderer))]
     public class Belt : Mechanism
     {

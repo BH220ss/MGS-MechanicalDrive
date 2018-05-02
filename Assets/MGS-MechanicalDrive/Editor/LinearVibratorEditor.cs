@@ -1,5 +1,5 @@
-/*************************************************************************
- *  Copyright (C), 2017-2018, Mogoson Tech. Co., Ltd.
+﻿/*************************************************************************
+ *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  LinearVibratorEditor.cs
  *  Description  :  Custom editor for LinearVibrator.
@@ -13,7 +13,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Developer.MechanicalDrive
+namespace Mogoson.MechanicalDrive
 {
     [CustomEditor(typeof(LinearVibrator), true)]
     [CanEditMultipleObjects]

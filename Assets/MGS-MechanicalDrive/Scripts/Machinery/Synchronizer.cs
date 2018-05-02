@@ -1,5 +1,5 @@
-/*************************************************************************
- *  Copyright (C), 2017-2018, Mogoson Tech. Co., Ltd.
+﻿/*************************************************************************
+ *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  Synchronizer.cs
  *  Description  :  Define Synchronizer component.
@@ -12,9 +12,9 @@
 
 using UnityEngine;
 
-namespace Developer.MechanicalDrive
+namespace Mogoson.MechanicalDrive
 {
-    [AddComponentMenu("Developer/MechanicalDrive/Synchronizer")]
+    [AddComponentMenu("Mogoson/MechanicalDrive/Synchronizer")]
     public class Synchronizer : Mechanism
     {
         #region Property and Field

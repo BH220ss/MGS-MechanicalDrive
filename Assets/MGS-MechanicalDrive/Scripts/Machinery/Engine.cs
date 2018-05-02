@@ -1,5 +1,5 @@
-/*************************************************************************
- *  Copyright (C), 2017-2018, Mogoson Tech. Co., Ltd.
+﻿/*************************************************************************
+ *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  Engine.cs
  *  Description  :  Define Engine component.
@@ -12,9 +12,9 @@
 
 using UnityEngine;
 
-namespace Developer.MechanicalDrive
+namespace Mogoson.MechanicalDrive
 {
-    [AddComponentMenu("Developer/MechanicalDrive/Engine")]
+    [AddComponentMenu("Mogoson/MechanicalDrive/Engine")]
     public class Engine : Synchronizer
     {
         #region Property and Field

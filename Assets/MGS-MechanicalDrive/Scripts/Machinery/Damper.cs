@@ -1,5 +1,5 @@
-/*************************************************************************
- *  Copyright (C), 2017-2018, Mogoson Tech. Co., Ltd.
+﻿/*************************************************************************
+ *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  Damper.cs
  *  Description  :  Define Damper component.
@@ -12,7 +12,7 @@
 
 using UnityEngine;
 
-namespace Developer.MechanicalDrive
+namespace Mogoson.MechanicalDrive
 {
     public enum DamperState
     {
@@ -21,7 +21,7 @@ namespace Developer.MechanicalDrive
         Stop = 2
     }
 
-    [AddComponentMenu("Developer/MechanicalDrive/Damper")]
+    [AddComponentMenu("Mogoson/MechanicalDrive/Damper")]
     [RequireComponent(typeof(Engine))]
     public class Damper : MonoBehaviour
     {

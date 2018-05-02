@@ -1,5 +1,5 @@
-/*************************************************************************
- *  Copyright (C), 2017-2018, Mogoson Tech. Co., Ltd.
+﻿/*************************************************************************
+ *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  ChainEditor.cs
  *  Description  :  Custom editor for Chain.
@@ -14,7 +14,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Developer.MechanicalDrive
+namespace Mogoson.MechanicalDrive
 {
     [CustomEditor(typeof(Chain), true)]
     [CanEditMultipleObjects]
@@ -66,7 +66,7 @@ namespace Developer.MechanicalDrive
 
                 if (script.anchorRoot.childCount >= 2)
                 {
-                    var maxTime = script.curve[script.curve.length - 1].time;
+                    var maxTime = script.curve[script.curve.Length - 1].time;
                     for (float timer = 0; timer < maxTime; timer += delta)
                     {
                         var timerPoint = script.anchorRoot.TransformPoint(script.curve.Evaluate(timer));
@@ -123,7 +123,7 @@ namespace Developer.MechanicalDrive
 
         protected void EstimateCount()
         {
-            var estimate = script.curve[script.curve.length - 1].time / script.space;
+            var estimate = script.curve[script.curve.Length - 1].time / script.space;
             script.count = (int)Math.Round(estimate, MidpointRounding.AwayFromZero);
             MarkSceneDirty();
         }

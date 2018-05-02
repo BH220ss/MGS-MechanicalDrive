@@ -1,5 +1,5 @@
-/*************************************************************************
- *  Copyright (C), 2017-2018, Mogoson Tech. Co., Ltd.
+﻿/*************************************************************************
+ *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  CentrifugalVibrator.cs
  *  Description  :  Define CentrifugalVibrator component.
@@ -12,9 +12,9 @@
 
 using UnityEngine;
 
-namespace Developer.MechanicalDrive
+namespace Mogoson.MechanicalDrive
 {
-    [AddComponentMenu("Developer/MechanicalDrive/CentrifugalVibrator")]
+    [AddComponentMenu("Mogoson/MechanicalDrive/CentrifugalVibrator")]
     public class CentrifugalVibrator : Mechanism
     {
         #region Property and Field

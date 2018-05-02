@@ -1,5 +1,5 @@
-/*************************************************************************
- *  Copyright (C), 2017-2018, Mogoson Tech. Co., Ltd.
+﻿/*************************************************************************
+ *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  LinearVibrator.cs
  *  Description  :  Define LinearVibrator component.
@@ -12,9 +12,9 @@
 
 using UnityEngine;
 
-namespace Developer.MechanicalDrive
+namespace Mogoson.MechanicalDrive
 {
-    [AddComponentMenu("Developer/MechanicalDrive/LinearVibrator")]
+    [AddComponentMenu("Mogoson/MechanicalDrive/LinearVibrator")]
     public class LinearVibrator : Mechanism
     {
         #region Property and Field

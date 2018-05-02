@@ -1,5 +1,5 @@
-/*************************************************************************
- *  Copyright (C), 2017-2018, Mogoson Tech. Co., Ltd.
+﻿/*************************************************************************
+ *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  EngineUI.cs
  *  Description  :  Draw scene UI to control Engine.
@@ -12,9 +12,9 @@
 
 using UnityEngine;
 
-namespace Developer.MechanicalDrive
+namespace Mogoson.MechanicalDrive
 {
-    [AddComponentMenu("Developer/MechanicalDrive/EngineUI")]
+    [AddComponentMenu("Mogoson/MechanicalDrive/EngineUI")]
     [RequireComponent(typeof(Engine))]
     public class EngineUI : MonoBehaviour
     {

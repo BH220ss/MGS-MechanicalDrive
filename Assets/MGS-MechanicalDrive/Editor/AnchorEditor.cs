@@ -1,5 +1,5 @@
-/*************************************************************************
- *  Copyright (C), 2017-2018, Mogoson Tech. Co., Ltd.
+﻿/*************************************************************************
+ *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  AnchorEditor.cs
  *  Description  :  Custom editor for chain anchor.
@@ -17,7 +17,7 @@ using UnityEngine;
 using UnityEditor.SceneManagement;
 #endif
 
-namespace Developer.MechanicalDrive
+namespace Mogoson.MechanicalDrive
 {
     public class AnchorEditor : EditorWindow
     {
