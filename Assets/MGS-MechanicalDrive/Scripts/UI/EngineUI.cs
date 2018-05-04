@@ -12,15 +12,14 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/EngineUI")]
     [RequireComponent(typeof(Engine))]
     public class EngineUI : MonoBehaviour
     {
         #region Property and Field
-        public float xOfset = 10;
-        public float yOfset = 10;
+        public float top = 10;
+        public float left = 10;
 
         protected Engine engine;
         #endregion
@@ -33,14 +32,13 @@ namespace Mogoson.MechanicalDrive
 
         protected virtual void OnGUI()
         {
-            GUILayout.Space(yOfset);
+            GUILayout.Space(top);
             GUILayout.BeginHorizontal();
-            GUILayout.Space(xOfset);
-            if (GUILayout.Button("Start Engine"))
-                engine.Starting();
-
-            if (GUILayout.Button("Stop Engine"))
-                engine.Stopping();
+            GUILayout.Space(left);
+            if (GUILayout.Button("Turn On Engine"))
+                engine.TurnOn();
+            if (GUILayout.Button("Turn Off Engine"))
+                engine.TurnOff();
             GUILayout.EndHorizontal();
         }
         #endregion

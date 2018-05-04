@@ -12,9 +12,9 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/Node")]
+    [AddComponentMenu("Mogoson/Machinery/Node")]
     public class Node : MonoBehaviour
     {
         #region Property and Field

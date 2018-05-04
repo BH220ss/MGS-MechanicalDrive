@@ -12,10 +12,13 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/CentrifugalVibrator")]
-    public class CentrifugalVibrator : Mechanism
+    /// <summary>
+    /// Centrifugal vibrator.
+    /// </summary>
+    [AddComponentMenu("Mogoson/Machinery/CentrifugalVibrator")]
+    public class CentrifugalVibrator : BaseMechanism
     {
         #region Property and Field
         /// <summary>
@@ -26,10 +29,10 @@ namespace Mogoson.MechanicalDrive
         /// <summary>
         /// Start loacal position.
         /// </summary>
-        public Vector3 startPosition { protected set; get; }
+        public Vector3 StartPosition { protected set; get; }
 
         /// <summary>
-        /// Current rotate angle of aixs.
+        /// Current rotate angle.
         /// </summary>
         protected float currentAngle;
         #endregion
@@ -37,7 +40,7 @@ namespace Mogoson.MechanicalDrive
         #region Protected Method
         protected virtual void Awake()
         {
-            startPosition = transform.localPosition;
+            StartPosition = transform.localPosition;
         }
 
         /// <summary>
@@ -58,12 +61,12 @@ namespace Mogoson.MechanicalDrive
         /// <summary>
         /// Drive vibrator.
         /// </summary>
-        /// <param name="velocity">Angular velocity [degrees].</param>
-        public override void Drive(float velocity)
+        /// <param name="speed">Line speed.</param>
+        public override void Drive(float speed)
         {
-            currentAngle += velocity * Time.deltaTime;
+            currentAngle += speed * Time.deltaTime;
             var direction = Quaternion.AngleAxis(currentAngle, transform.forward) * transform.right;
-            transform.localPosition = startPosition + GetLocalDirection(direction) * amplitudeRadius;
+            transform.localPosition = StartPosition + GetLocalDirection(direction) * amplitudeRadius;
         }
         #endregion
     }

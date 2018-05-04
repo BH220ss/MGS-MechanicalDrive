@@ -12,11 +12,14 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/Belt")]
+    /// <summary>
+    /// Belt with UV animation.
+    /// </summary>
+    [AddComponentMenu("Mogoson/Machinery/Belt")]
     [RequireComponent(typeof(Renderer))]
-    public class Belt : Mechanism
+    public class Belt : BaseMechanism
     {
         #region Property and Field
         /// <summary>
@@ -36,10 +39,10 @@ namespace Mogoson.MechanicalDrive
         /// <summary>
         /// Drive belt.
         /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
+        /// <param name="speed">Line speed.</param>
+        public override void Drive(float speed)
         {
-            beltRenderer.material.mainTextureOffset += new Vector2(velocity * Mathf.Deg2Rad * Time.deltaTime, 0);
+            beltRenderer.material.mainTextureOffset += new Vector2(speed * Mathf.Deg2Rad * Time.deltaTime, 0);
         }
         #endregion
     }

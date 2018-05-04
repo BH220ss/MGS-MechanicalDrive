@@ -12,10 +12,13 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/WormGear")]
-    public class WormGear : Mechanism
+    /// <summary>
+    /// Worm with gear.
+    /// </summary>
+    [AddComponentMenu("Mogoson/Machinery/WormGear")]
+    public class WormGear : BaseMechanism
     {
         #region Property and Field
         /// <summary>
@@ -34,7 +37,7 @@ namespace Mogoson.MechanicalDrive
         public Gear gear;
 
         /// <summary>
-        /// Count of gear Teeth.
+        /// Count of gear teeth.
         /// </summary>
         public int teeth = 36;
         #endregion
@@ -43,10 +46,10 @@ namespace Mogoson.MechanicalDrive
         /// <summary>
         /// Drive worm and gear.
         /// </summary>
-        /// <param name="velocity">Worm linear velocity.</param>
-        public override void Drive(float velocity)
+        /// <param name="speed">Line speed.</param>
+        public override void Drive(float speed)
         {
-            var wormSpeed = velocity / worm.radius * Time.deltaTime;
+            var wormSpeed = speed / worm.radius * Time.deltaTime;
             worm.transform.Rotate(Vector3.forward, wormSpeed, Space.Self);
             gear.transform.Rotate(Vector3.forward, wormSpeed * threads / teeth, Space.Self);
         }

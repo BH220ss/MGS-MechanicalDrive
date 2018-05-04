@@ -14,7 +14,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
     [CustomEditor(typeof(Chain), true)]
     [CanEditMultipleObjects]

@@ -17,7 +17,7 @@ using UnityEngine;
 using UnityEditor.SceneManagement;
 #endif
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
     public class MechanismEditor : Editor
     {

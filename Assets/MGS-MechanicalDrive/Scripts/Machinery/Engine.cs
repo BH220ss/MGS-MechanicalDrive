@@ -12,9 +12,9 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/Engine")]
+    [AddComponentMenu("Mogoson/Machinery/Engine")]
     public class Engine : Synchronizer
     {
         #region Property and Field
@@ -37,15 +37,15 @@ namespace Mogoson.MechanicalDrive
 
         protected virtual void Update()
         {
-            base.Drive(power);
+            Drive(power);
         }
         #endregion
 
         #region Public Method
         /// <summary>
-        /// Start engine.
+        /// Turn on engine.
         /// </summary>
-        public virtual void Starting()
+        public virtual void TurnOn()
         {
             if (damper)
                 damper.BeginAccelerate();
@@ -53,9 +53,9 @@ namespace Mogoson.MechanicalDrive
         }
 
         /// <summary>
-        /// Stop engine.
+        /// Turn off engine.
         /// </summary>
-        public virtual void Stopping()
+        public virtual void TurnOff()
         {
             if (damper)
                 damper.BeginDecelerate();

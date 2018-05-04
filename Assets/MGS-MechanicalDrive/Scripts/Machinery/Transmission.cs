@@ -12,28 +12,31 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/Transmission")]
-    public class Transmission : Mechanism
+    /// <summary>
+    /// Transmission for Mechanisms.
+    /// </summary>
+    [AddComponentMenu("Mogoson/Machinery/Transmission")]
+    public class Transmission : BaseMechanism
     {
         #region Property and Field
         /// <summary>
-        /// Mechanism units to drive.
+        /// Mechanism units drive by this Transmission.
         /// </summary>
         public MechanismUnit[] mechanismUnits;
         #endregion
 
         #region Public Method
         /// <summary>
-        /// Drive Transmission's mechanisms.
+        /// Drive mechanisms.
         /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
+        /// <param name="speed">Line speed.</param>
+        public override void Drive(float speed)
         {
             foreach (var unit in mechanismUnits)
             {
-                unit.mechanism.Drive(velocity * unit.ratio);
+                unit.mechanism.Drive(speed * unit.ratio);
             }
         }
         #endregion

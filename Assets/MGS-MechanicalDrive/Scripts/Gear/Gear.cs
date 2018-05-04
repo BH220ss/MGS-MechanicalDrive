@@ -12,10 +12,13 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/Gear")]
-    public class Gear : Mechanism
+    /// <summary>
+    /// Gear rotate around axis Z.
+    /// </summary>
+    [AddComponentMenu("Mogoson/Machinery/Gear")]
+    public class Gear : BaseMechanism
     {
         #region Property and Field
         /// <summary>
@@ -28,10 +31,10 @@ namespace Mogoson.MechanicalDrive
         /// <summary>
         /// Drive gear.
         /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
+        /// <param name="speed">Line speed.</param>
+        public override void Drive(float speed)
         {
-            transform.Rotate(Vector3.forward, velocity / radius * Time.deltaTime, Space.Self);
+            transform.Rotate(Vector3.forward, speed / radius * Time.deltaTime, Space.Self);
         }
         #endregion
     }

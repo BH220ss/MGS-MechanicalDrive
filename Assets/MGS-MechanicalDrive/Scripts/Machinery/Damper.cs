@@ -12,8 +12,11 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
+    /// <summary>
+    /// State of damper.
+    /// </summary>
     public enum DamperState
     {
         Accelerating = 0,
@@ -21,44 +24,41 @@ namespace Mogoson.MechanicalDrive
         Stop = 2
     }
 
-    [AddComponentMenu("Mogoson/MechanicalDrive/Damper")]
+    /// <summary>
+    /// Damper for engine power.
+    /// </summary>
+    [AddComponentMenu("Mogoson/Machinery/Damper")]
     [RequireComponent(typeof(Engine))]
     public class Damper : MonoBehaviour
     {
         #region Property and Field
         /// <summary>
-        /// AnimationCurve of damper acceleration.
+        /// AnimationCurve for damper acceleration.
         /// </summary>
-        public AnimationCurve accelerationCurve;
+        public AnimationCurve acceleration = new AnimationCurve(new Keyframe[] { new Keyframe(0, 0), new Keyframe(2, 100) });
 
         /// <summary>
-        /// AnimationCurve of damper deceleration.
+        /// AnimationCurve for damper deceleration.
         /// </summary>
-        public AnimationCurve decelerationCurve;
+        public AnimationCurve deceleration = new AnimationCurve(new Keyframe[] { new Keyframe(0, 100), new Keyframe(3, 0) });
 
         /// <summary>
-        /// State of this damper.
+        /// State of damper.
         /// </summary>
         protected DamperState state = DamperState.Accelerating;
 
         /// <summary>
-        /// Time of AnimationCurve.
+        /// Timer for animation curve.
         /// </summary>
         protected float timer = 0;
 
         /// <summary>
-        /// Damper attach engine.
+        /// Damper attached engine.
         /// </summary>
         protected Engine engine;
         #endregion
 
         #region Protected Method
-        protected virtual void Reset()
-        {
-            accelerationCurve = new AnimationCurve(new Keyframe[] { new Keyframe(0, 0), new Keyframe(2, 100) });
-            decelerationCurve = new AnimationCurve(new Keyframe[] { new Keyframe(0, 100), new Keyframe(3, 0) });
-        }
-
         protected virtual void Awake()
         {
             engine = GetComponent<Engine>();
@@ -69,8 +69,8 @@ namespace Mogoson.MechanicalDrive
             if (state == DamperState.Accelerating)
             {
                 timer += Time.deltaTime;
-                engine.power = accelerationCurve.Evaluate(timer);
-                if (timer >= accelerationCurve[accelerationCurve.length - 1].time)
+                engine.power = acceleration.Evaluate(timer);
+                if (timer >= acceleration[acceleration.length - 1].time)
                 {
                     timer = 0;
                     state = DamperState.Stop;
@@ -80,8 +80,8 @@ namespace Mogoson.MechanicalDrive
             else if (state == DamperState.Decelerating)
             {
                 timer += Time.deltaTime;
-                engine.power = decelerationCurve.Evaluate(timer);
-                if (timer >= decelerationCurve[decelerationCurve.length - 1].time)
+                engine.power = deceleration.Evaluate(timer);
+                if (timer >= deceleration[deceleration.length - 1].time)
                 {
                     engine.enabled = false;
                     engine.power = timer = 0;

@@ -12,28 +12,31 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/Synchronizer")]
-    public class Synchronizer : Mechanism
+    /// <summary>
+    /// Synchronizer for mechanisms.
+    /// </summary>
+    [AddComponentMenu("Mogoson/Machinery/Synchronizer")]
+    public class Synchronizer : BaseMechanism
     {
         #region Property and Field
         /// <summary>
         /// Mechanisms drive by this synchronizer.
         /// </summary>
-        public Mechanism[] mechanisms;
+        public BaseMechanism[] mechanisms;
         #endregion
 
         #region Public Method
         /// <summary>
-        /// Drive synchronizer's mechanisms.
+        /// Drive mechanisms.
         /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
+        /// <param name="speed">Line speed.</param>
+        public override void Drive(float speed)
         {
             foreach (var mechanism in mechanisms)
             {
-                mechanism.Drive(velocity);
+                mechanism.Drive(speed);
             }
         }
         #endregion

@@ -13,7 +13,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
     [CustomEditor(typeof(LinearVibrator), true)]
     [CanEditMultipleObjects]
@@ -29,9 +29,9 @@ namespace Mogoson.MechanicalDrive
                 if (Application.isPlaying)
                 {
                     if (script.transform.parent)
-                        return script.transform.parent.TransformPoint(script.startPosition);
+                        return script.transform.parent.TransformPoint(script.StartPosition);
                     else
-                        return script.startPosition;
+                        return script.StartPosition;
                 }
                 else
                     return script.transform.position;

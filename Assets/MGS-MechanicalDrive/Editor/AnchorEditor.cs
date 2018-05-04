@@ -17,7 +17,7 @@ using UnityEngine;
 using UnityEditor.SceneManagement;
 #endif
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
     public class AnchorEditor : EditorWindow
     {
@@ -29,7 +29,7 @@ namespace Mogoson.MechanicalDrive
 
         protected static Chain targetChain;
         protected static Material material;
-        protected const string materialPath = "Assets/MGS-MechanicalDrive/Materials/Anchor.mat";
+        protected const string materialPath = "Assets/MGS-Machinery/Materials/Anchor.mat";
 
         protected static string prefix = "Anchor";
         protected const string rendererName = "AnchorRenderer";

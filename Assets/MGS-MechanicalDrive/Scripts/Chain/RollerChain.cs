@@ -12,9 +12,9 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/RollerChain")]
+    [AddComponentMenu("Mogoson/Machinery/RollerChain")]
     public class RollerChain : Chain
     {
         #region Property and Field

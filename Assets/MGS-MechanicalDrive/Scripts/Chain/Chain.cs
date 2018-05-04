@@ -13,10 +13,10 @@
 using Mogoson.Curve;
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/Chain")]
-    public class Chain : Mechanism
+    [AddComponentMenu("Mogoson/Machinery/Chain")]
+    public class Chain : BaseMechanism
     {
         #region Property and Field
         /// <summary>

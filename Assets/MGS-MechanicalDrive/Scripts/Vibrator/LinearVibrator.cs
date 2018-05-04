@@ -12,10 +12,13 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/LinearVibrator")]
-    public class LinearVibrator : Mechanism
+    /// <summary>
+    /// Linear vibrator.
+    /// </summary>
+    [AddComponentMenu("Mogoson/Machinery/LinearVibrator")]
+    public class LinearVibrator : BaseMechanism
     {
         #region Property and Field
         /// <summary>
@@ -26,12 +29,12 @@ namespace Mogoson.MechanicalDrive
         /// <summary>
         /// Start loacal position.
         /// </summary>
-        public Vector3 startPosition { protected set; get; }
+        public Vector3 StartPosition { protected set; get; }
 
         /// <summary>
-        /// Vibration local axis.
+        /// Vibrate local axis.
         /// </summary>
-        protected Vector3 localAxis
+        protected Vector3 LocalAxis
         {
             get
             {
@@ -48,7 +51,7 @@ namespace Mogoson.MechanicalDrive
         protected float currentOffset;
 
         /// <summary>
-        /// Vibration direction.
+        /// Vibrate direction.
         /// </summary>
         protected int direction = 1;
         #endregion
@@ -56,7 +59,7 @@ namespace Mogoson.MechanicalDrive
         #region Protected Method
         protected virtual void Awake()
         {
-            startPosition = transform.localPosition;
+            StartPosition = transform.localPosition;
         }
         #endregion
 
@@ -64,16 +67,16 @@ namespace Mogoson.MechanicalDrive
         /// <summary>
         /// Drive vibrator.
         /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
+        /// <param name="speed">Line speed.</param>
+        public override void Drive(float speed)
         {
-            currentOffset += velocity * Mathf.Deg2Rad * direction * Time.deltaTime;
+            currentOffset += speed * Mathf.Deg2Rad * direction * Time.deltaTime;
             if (currentOffset < -amplitudeRadius || currentOffset > amplitudeRadius)
             {
                 direction *= -1;
                 currentOffset = Mathf.Clamp(currentOffset, -amplitudeRadius, amplitudeRadius);
             }
-            transform.localPosition = startPosition + localAxis * currentOffset;
+            transform.localPosition = StartPosition + LocalAxis * currentOffset;
         }
         #endregion
     }

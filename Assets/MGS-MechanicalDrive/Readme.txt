@@ -1,6 +1,6 @@
 ﻿==========================================================================
   Copyright © 2017-2018 Mogoson. All rights reserved.
-  Name: MGS-MechanicalDrive
+  Name: MGS-Machinery
   Author: Mogoson   Version: 0.1.0   Date: 11/14/2017
 ==========================================================================
   [Summary]
@@ -83,14 +83,14 @@
     usually set a small value.
 --------------------------------------------------------------------------
   [Demo]
-    Prefabs in the path "MGS-MechanicalDrive/Prefabs" provide reference
+    Prefabs in the path "MGS-Machinery/Prefabs" provide reference
     to you.
 
-    Demos in the path "MGS-MechanicalDrive/Scenes" provide reference to
+    Demos in the path "MGS-Machinery/Scenes" provide reference to
     you.
 --------------------------------------------------------------------------
   [Resource]
-    https://github.com/mogoson/MGS-MechanicalDrive.
+    https://github.com/mogoson/MGS-Machinery.
 --------------------------------------------------------------------------
   [Contact]
     If you have any questions, feel free to contact me at mogoson@qq.com.

@@ -12,9 +12,9 @@
 
 using UnityEngine;
 
-namespace Mogoson.MechanicalDrive
+namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/MechanicalDrive/DynamicChain")]
+    [AddComponentMenu("Mogoson/Machinery/DynamicChain")]
     public class DynamicChain : Chain
     {
         #region Public Method
