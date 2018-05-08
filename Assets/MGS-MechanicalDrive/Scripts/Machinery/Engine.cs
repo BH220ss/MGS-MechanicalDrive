@@ -17,7 +17,7 @@ namespace Mogoson.Machinery
     [AddComponentMenu("Mogoson/Machinery/Engine")]
     public class Engine : Synchronizer
     {
-        #region Property and Field
+        #region Field and Property
         /// <summary>
         /// Engine output power.
         /// </summary>

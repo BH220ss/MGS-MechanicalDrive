@@ -21,7 +21,7 @@ namespace Mogoson.Machinery
     [RequireComponent(typeof(Renderer))]
     public class Belt : BaseMechanism
     {
-        #region Property and Field
+        #region Field and Property
         /// <summary>
         /// Renderer of belt.
         /// </summary>

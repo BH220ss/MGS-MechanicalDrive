@@ -20,7 +20,7 @@ namespace Mogoson.Machinery
     [AddComponentMenu("Mogoson/Machinery/WormGear")]
     public class WormGear : BaseMechanism
     {
-        #region Property and Field
+        #region Field and Property
         /// <summary>
         /// Worm shaft.
         /// </summary>

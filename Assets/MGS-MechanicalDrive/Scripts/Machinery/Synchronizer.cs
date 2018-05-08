@@ -20,7 +20,7 @@ namespace Mogoson.Machinery
     [AddComponentMenu("Mogoson/Machinery/Synchronizer")]
     public class Synchronizer : BaseMechanism
     {
-        #region Property and Field
+        #region Field and Property
         /// <summary>
         /// Mechanisms drive by this synchronizer.
         /// </summary>

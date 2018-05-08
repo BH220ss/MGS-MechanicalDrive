@@ -21,38 +21,38 @@ namespace Mogoson.Machinery
 {
     public class AnchorEditor : EditorWindow
     {
-        #region Property and Field
+        #region Field and Property
         protected static AnchorEditor instance;
         protected static Vector2 scrollPos;
-        protected const float leftAlign = 150;
-        protected const float paragraph = 2.5f;
+        protected const float LeftAlign = 150;
+        protected const float Paragraph = 2.5f;
 
         protected static Chain targetChain;
         protected static Material material;
-        protected const string materialPath = "Assets/MGS-Machinery/Materials/Anchor.mat";
+        protected const string MaterialPath = "Assets/MGS-Machinery/Materials/Anchor.mat";
 
         protected static string prefix = "Anchor";
-        protected const string rendererName = "AnchorRenderer";
+        protected const string RendererName = "AnchorRenderer";
         protected static float size = 0.05f;
 
-        public static bool isOpen { protected set; get; }
+        public static bool IsOpen { protected set; get; }
 
-        public static Transform center { protected set; get; }
-        public static float radius { protected set; get; }
-        public static float from { protected set; get; }
-        public static float to { protected set; get; }
-        public static int countC { protected set; get; }
-        public static bool isCircularSettingsReasonable
+        public static Transform Center { protected set; get; }
+        public static float Radius { protected set; get; }
+        public static float From { protected set; get; }
+        public static float To { protected set; get; }
+        public static int CountC { protected set; get; }
+        public static bool IsCircularSettingsReasonable
         {
-            get { return center && radius > 0 && from < to && countC > 0; }
+            get { return Center && Radius > 0 && From < To && CountC > 0; }
         }
 
-        public static Transform start { protected set; get; }
-        public static Transform end { protected set; get; }
-        public static int countL { protected set; get; }
-        public static bool isLinearSettingsReasonable
+        public static Transform Start { protected set; get; }
+        public static Transform End { protected set; get; }
+        public static int CountL { protected set; get; }
+        public static bool IsLinearSettingsReasonable
         {
-            get { return start && end && countL > 0; }
+            get { return Start && End && CountL > 0; }
         }
         #endregion
 
@@ -68,10 +68,10 @@ namespace Mogoson.Machinery
         #region protected Method
         protected static void ShowEditorWindow()
         {
-            material = (Material)AssetDatabase.LoadAssetAtPath(materialPath, typeof(Material));
+            material = (Material)AssetDatabase.LoadAssetAtPath(MaterialPath, typeof(Material));
             instance = GetWindow<AnchorEditor>("Anchor Editor", true);
             instance.Show();
-            isOpen = true;
+            IsOpen = true;
         }
 
         protected static Chain GetChainFromSelection()
@@ -100,19 +100,19 @@ namespace Mogoson.Machinery
                     GUILayout.BeginVertical("Circular Anchor Creater", "Window", GUILayout.Height(140));
 
                     EditorGUI.BeginChangeCheck();
-                    center = (Transform)EditorGUILayout.ObjectField("Center", center, typeof(Transform), true);
-                    radius = EditorGUILayout.FloatField("Radius", radius);
-                    from = EditorGUILayout.FloatField("From", from);
-                    to = EditorGUILayout.FloatField("To", to);
-                    countC = EditorGUILayout.IntField("Count", countC);
+                    Center = (Transform)EditorGUILayout.ObjectField("Center", Center, typeof(Transform), true);
+                    Radius = EditorGUILayout.FloatField("Radius", Radius);
+                    From = EditorGUILayout.FloatField("From", From);
+                    To = EditorGUILayout.FloatField("To", To);
+                    CountC = EditorGUILayout.IntField("Count", CountC);
                     if (EditorGUI.EndChangeCheck())
                         SceneView.RepaintAll();
 
                     GUILayout.BeginHorizontal();
-                    GUILayout.Space(leftAlign);
+                    GUILayout.Space(LeftAlign);
                     if (GUILayout.Button("Create"))
                     {
-                        if (isCircularSettingsReasonable)
+                        if (IsCircularSettingsReasonable)
                             CreateCircularAnchors();
                         else
                             ShowNotification(new GUIContent("The parameter settings of circular anchor creater is not reasonable."));
@@ -128,17 +128,17 @@ namespace Mogoson.Machinery
                     GUILayout.BeginVertical("Linear Anchor Creater", "Window", GUILayout.Height(105));
 
                     EditorGUI.BeginChangeCheck();
-                    start = (Transform)EditorGUILayout.ObjectField("Start", start, typeof(Transform), true);
-                    end = (Transform)EditorGUILayout.ObjectField("End", end, typeof(Transform), true);
-                    countL = EditorGUILayout.IntField("Count", countL);
+                    Start = (Transform)EditorGUILayout.ObjectField("Start", Start, typeof(Transform), true);
+                    End = (Transform)EditorGUILayout.ObjectField("End", End, typeof(Transform), true);
+                    CountL = EditorGUILayout.IntField("Count", CountL);
                     if (EditorGUI.EndChangeCheck())
                         SceneView.RepaintAll();
 
                     GUILayout.BeginHorizontal();
-                    GUILayout.Space(leftAlign);
+                    GUILayout.Space(LeftAlign);
                     if (GUILayout.Button("Create"))
                     {
-                        if (isLinearSettingsReasonable)
+                        if (IsLinearSettingsReasonable)
                             CreateLinearAnchors();
                         else
                             ShowNotification(new GUIContent("The parameter settings of linear anchor creater is not reasonable."));
@@ -155,7 +155,7 @@ namespace Mogoson.Machinery
                     prefix = EditorGUILayout.TextField("Prefix", prefix);
 
                     GUILayout.BeginHorizontal();
-                    GUILayout.Space(leftAlign);
+                    GUILayout.Space(LeftAlign);
                     if (GUILayout.Button("Rename"))
                     {
                         if (prefix.Trim() == string.Empty)
@@ -165,11 +165,11 @@ namespace Mogoson.Machinery
                     }
                     GUILayout.EndHorizontal();
 
-                    GUILayout.Space(paragraph);
+                    GUILayout.Space(Paragraph);
                     size = EditorGUILayout.FloatField("Renderer", size);
 
                     GUILayout.BeginHorizontal();
-                    GUILayout.Space(leftAlign);
+                    GUILayout.Space(LeftAlign);
                     if (GUILayout.Button("Attach"))
                     {
                         RemoveAnchorRenderer();
@@ -179,9 +179,9 @@ namespace Mogoson.Machinery
                         RemoveAnchorRenderer();
                     GUILayout.EndHorizontal();
 
-                    GUILayout.Space(paragraph);
+                    GUILayout.Space(Paragraph);
                     GUILayout.BeginHorizontal();
-                    GUILayout.Label("Anchors", GUILayout.Width(leftAlign - 4));
+                    GUILayout.Label("Anchors", GUILayout.Width(LeftAlign - 4));
                     if (GUILayout.Button("Delete"))
                     {
                         var delete = EditorUtility.DisplayDialog(
@@ -210,19 +210,19 @@ namespace Mogoson.Machinery
         protected virtual void OnDestroy()
         {
             targetChain = null;
-            isOpen = false;
+            IsOpen = false;
             SceneView.RepaintAll();
         }
 
         protected void CreateCircularAnchors()
         {
-            var space = (to - from) / (countC == 1 ? 1 : countC - 1);
-            for (int i = 0; i < countC; i++)
+            var space = (To - From) / (CountC == 1 ? 1 : CountC - 1);
+            for (int i = 0; i < CountC; i++)
             {
-                var direction = Quaternion.AngleAxis(from + space * i, targetChain.anchorRoot.forward) * Vector3.up;
+                var direction = Quaternion.AngleAxis(From + space * i, targetChain.anchorRoot.forward) * Vector3.up;
                 var tangent = -Vector3.Cross(direction, targetChain.anchorRoot.forward);
-                var position = center.position + direction * radius;
-                CreateAnchor("CircularAnchor" + " (" + i + ")", position, position + tangent, direction, center.GetSiblingIndex());
+                var position = Center.position + direction * Radius;
+                CreateAnchor("CircularAnchor" + " (" + i + ")", position, position + tangent, direction, Center.GetSiblingIndex());
             }
             ResetCircularAnchorCreater();
             RefreshChainCurve();
@@ -231,19 +231,19 @@ namespace Mogoson.Machinery
 
         protected void ResetCircularAnchorCreater()
         {
-            center = null;
-            radius = from = to = countC = 0;
+            Center = null;
+            Radius = From = To = CountC = 0;
             SceneView.RepaintAll();
         }
 
         protected void CreateLinearAnchors()
         {
-            var direction = (end.position - start.position).normalized;
-            var space = Vector3.Distance(start.position, end.position) / (countL + 1);
-            for (int i = 0; i < countL; i++)
+            var direction = (End.position - Start.position).normalized;
+            var space = Vector3.Distance(Start.position, End.position) / (CountL + 1);
+            for (int i = 0; i < CountL; i++)
             {
-                CreateAnchor("LinearAnchor" + " (" + i + ")", start.position + direction * space * (i + 1),
-                    end.position, Vector3.Cross(direction, targetChain.anchorRoot.forward), end.GetSiblingIndex());
+                CreateAnchor("LinearAnchor" + " (" + i + ")", Start.position + direction * space * (i + 1),
+                    End.position, Vector3.Cross(direction, targetChain.anchorRoot.forward), End.GetSiblingIndex());
             }
             ResetLinearAnchorCreater();
             RefreshChainCurve();
@@ -252,8 +252,8 @@ namespace Mogoson.Machinery
 
         protected void ResetLinearAnchorCreater()
         {
-            start = end = null;
-            countL = 0;
+            Start = End = null;
+            CountL = 0;
             SceneView.RepaintAll();
         }
 
@@ -296,7 +296,7 @@ namespace Mogoson.Machinery
             var renderer = GameObject.CreatePrimitive(PrimitiveType.Sphere).transform;
             DestroyImmediate(renderer.GetComponent<Collider>());
             renderer.GetComponent<Renderer>().sharedMaterial = material;
-            renderer.name = rendererName;
+            renderer.name = RendererName;
             renderer.parent = anchor;
             renderer.localPosition = Vector3.zero;
             renderer.localRotation = Quaternion.identity;
@@ -307,7 +307,7 @@ namespace Mogoson.Machinery
         {
             foreach (Transform anchor in targetChain.anchorRoot)
             {
-                var renderer = anchor.Find(rendererName);
+                var renderer = anchor.Find(RendererName);
                 if (renderer)
                     DestroyImmediate(renderer.gameObject);
             }

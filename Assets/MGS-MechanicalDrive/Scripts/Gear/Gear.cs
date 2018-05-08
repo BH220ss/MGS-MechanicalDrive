@@ -20,7 +20,7 @@ namespace Mogoson.Machinery
     [AddComponentMenu("Mogoson/Machinery/Gear")]
     public class Gear : BaseMechanism
     {
-        #region Property and Field
+        #region Field and Property
         /// <summary>
         /// Radius of gear.
         /// </summary>

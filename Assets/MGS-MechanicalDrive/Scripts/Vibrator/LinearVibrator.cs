@@ -20,7 +20,7 @@ namespace Mogoson.Machinery
     [AddComponentMenu("Mogoson/Machinery/LinearVibrator")]
     public class LinearVibrator : BaseMechanism
     {
-        #region Property and Field
+        #region Field and Property
         /// <summary>
         /// Amplitude radius of vibrator.
         /// </summary>

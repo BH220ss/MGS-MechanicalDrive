@@ -17,38 +17,39 @@ namespace Mogoson.Machinery
 {
     [CustomEditor(typeof(CentrifugalVibrator), true)]
     [CanEditMultipleObjects]
-    public class CentrifugalVibratorEditor : MechanismEditor
+    public class CentrifugalVibratorEditor : BaseMEditor
     {
-        #region Property and Field
-        protected CentrifugalVibrator script { get { return target as CentrifugalVibrator; } }
+        #region Field and Property
+        protected CentrifugalVibrator Target { get { return target as CentrifugalVibrator; } }
 
-        protected Vector3 startPosition
+        protected Vector3 StartPosition
         {
             get
             {
                 if (Application.isPlaying)
                 {
-                    if (script.transform.parent)
-                        return script.transform.parent.TransformPoint(script.StartPosition);
+                    if (Target.transform.parent)
+                        return Target.transform.parent.TransformPoint(Target.StartPosition);
                     else
-                        return script.StartPosition;
+                        return Target.StartPosition;
                 }
                 else
-                    return script.transform.position;
+                    return Target.transform.position;
             }
         }
         #endregion
 
+        #region Protected Method
         protected virtual void OnSceneGUI()
         {
-            Handles.color = blue;
+            Handles.color = Blue;
+            DrawSphereCap(StartPosition, Quaternion.identity, NodeSize);
+            DrawSphereCap(Target.transform.position, Quaternion.identity, NodeSize);
+            DrawCircleCap(StartPosition, Target.transform.rotation, Target.amplitudeRadius);
 
-            DrawSphereCap(startPosition, Quaternion.identity, nodeSize);
-            DrawSphereCap(script.transform.position, Quaternion.identity, nodeSize);
-            DrawCircleCap(startPosition, script.transform.rotation, script.amplitudeRadius);
-
-            DrawArrow(startPosition, script.transform.position, nodeSize, string.Empty, blue);
-            DrawArrow(startPosition, script.transform.forward, arrowLength, nodeSize, "Axis", blue);
+            DrawSphereArrow(StartPosition, Target.transform.position, NodeSize, Blue, string.Empty);
+            DrawSphereArrow(StartPosition, Target.transform.forward, ArrowLength, NodeSize, Blue, "Axis");
         }
+        #endregion
     }
 }

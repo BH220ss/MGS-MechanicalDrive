@@ -20,7 +20,7 @@ namespace Mogoson.Machinery
     [AddComponentMenu("Mogoson/Machinery/Transmission")]
     public class Transmission : BaseMechanism
     {
-        #region Property and Field
+        #region Field and Property
         /// <summary>
         /// Mechanism units drive by this Transmission.
         /// </summary>

@@ -17,7 +17,7 @@ namespace Mogoson.Machinery
     [AddComponentMenu("Mogoson/Machinery/RollerChain")]
     public class RollerChain : Chain
     {
-        #region Property and Field
+        #region Field and Property
         /// <summary>
         /// Roller prefab of chain.
         /// </summary>

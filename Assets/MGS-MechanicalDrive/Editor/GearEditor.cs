@@ -17,19 +17,19 @@ namespace Mogoson.Machinery
 {
     [CustomEditor(typeof(Gear), true)]
     [CanEditMultipleObjects]
-    public class GearEditor : MechanismEditor
+    public class GearEditor : BaseMEditor
     {
-        #region Property and Field
-        protected Gear script { get { return target as Gear; } }
+        #region Field and Property
+        protected Gear Target { get { return target as Gear; } }
         #endregion
 
         #region Protected Method
         protected virtual void OnSceneGUI()
         {
-            Handles.color = blue;
-            DrawSphereCap(script.transform.position, Quaternion.identity, nodeSize);
-            DrawCircleCap(script.transform.position, script.transform.rotation, script.radius);
-            DrawArrow(script.transform.position, script.transform.forward, arrowLength, nodeSize, "Axis", blue);
+            Handles.color = Blue;
+            DrawSphereCap(Target.transform.position, Quaternion.identity, NodeSize);
+            DrawCircleCap(Target.transform.position, Target.transform.rotation, Target.radius);
+            DrawSphereArrow(Target.transform.position, Target.transform.forward, ArrowLength, NodeSize, Blue, "Axis");
         }
         #endregion
     }

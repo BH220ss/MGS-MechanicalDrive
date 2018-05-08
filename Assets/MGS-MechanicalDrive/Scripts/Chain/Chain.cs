@@ -18,7 +18,7 @@ namespace Mogoson.Machinery
     [AddComponentMenu("Mogoson/Machinery/Chain")]
     public class Chain : BaseMechanism
     {
-        #region Property and Field
+        #region Field and Property
         /// <summary>
         /// Root of chain track anchors.
         /// </summary>

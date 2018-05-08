@@ -17,24 +17,24 @@ namespace Mogoson.Machinery
 {
     [CustomEditor(typeof(LinearVibrator), true)]
     [CanEditMultipleObjects]
-    public class LinearVibratorEditor : MechanismEditor
+    public class LinearVibratorEditor : BaseMEditor
     {
-        #region Property and Field
-        protected LinearVibrator script { get { return target as LinearVibrator; } }
+        #region Field and Property
+        protected LinearVibrator Target { get { return target as LinearVibrator; } }
 
-        protected Vector3 startPosition
+        protected Vector3 StartPosition
         {
             get
             {
                 if (Application.isPlaying)
                 {
-                    if (script.transform.parent)
-                        return script.transform.parent.TransformPoint(script.StartPosition);
+                    if (Target.transform.parent)
+                        return Target.transform.parent.TransformPoint(Target.StartPosition);
                     else
-                        return script.StartPosition;
+                        return Target.StartPosition;
                 }
                 else
-                    return script.transform.position;
+                    return Target.transform.position;
             }
         }
         #endregion
@@ -42,14 +42,13 @@ namespace Mogoson.Machinery
         #region Protected Method
         protected virtual void OnSceneGUI()
         {
-            Handles.color = blue;
+            Handles.color = Blue;
+            DrawSphereCap(StartPosition, Quaternion.identity, NodeSize);
+            DrawSphereCap(Target.transform.position, Quaternion.identity, NodeSize);
 
-            DrawSphereCap(startPosition, Quaternion.identity, nodeSize);
-            DrawSphereCap(script.transform.position, Quaternion.identity, nodeSize);
-
-            DrawArrow(startPosition, script.transform.forward, arrowLength, nodeSize, "Axis", blue);
-            DrawArrow(startPosition, script.transform.forward, -script.amplitudeRadius, nodeSize, string.Empty, blue);
-            DrawArrow(startPosition, script.transform.forward, script.amplitudeRadius, nodeSize, string.Empty, blue);
+            DrawSphereArrow(StartPosition, Target.transform.forward, ArrowLength, NodeSize, Blue, "Axis");
+            DrawSphereArrow(StartPosition, Target.transform.forward, -Target.amplitudeRadius, NodeSize, Blue, string.Empty);
+            DrawSphereArrow(StartPosition, Target.transform.forward, Target.amplitudeRadius, NodeSize, Blue, string.Empty);
         }
         #endregion
     }

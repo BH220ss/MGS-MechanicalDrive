@@ -17,7 +17,7 @@ namespace Mogoson.Machinery
     [RequireComponent(typeof(Engine))]
     public class EngineUI : MonoBehaviour
     {
-        #region Property and Field
+        #region Field and Property
         public float top = 10;
         public float left = 10;
 

@@ -31,7 +31,7 @@ namespace Mogoson.Machinery
     [RequireComponent(typeof(Engine))]
     public class Damper : MonoBehaviour
     {
-        #region Property and Field
+        #region Field and Property
         /// <summary>
         /// AnimationCurve for damper acceleration.
         /// </summary>

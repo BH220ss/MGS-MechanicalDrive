@@ -18,103 +18,101 @@ namespace Mogoson.Machinery
 {
     [CustomEditor(typeof(Chain), true)]
     [CanEditMultipleObjects]
-    public class ChainEditor : MechanismEditor
+    public class ChainEditor : BaseMEditor
     {
-        #region Property and Field
-        protected Chain script { get { return target as Chain; } }
-
-        protected const float delta = 0.1f;
+        #region Field and Property
+        protected Chain Target { get { return target as Chain; } }
+        protected const float Delta = 0.1f;
         #endregion
 
         #region Protected Method
         protected virtual void OnEnable()
         {
-            if (script.anchorRoot)
+            if (Target.anchorRoot)
             {
-                script.anchorRoot.localPosition = Vector3.zero;
-                script.anchorRoot.localRotation = Quaternion.identity;
-                if (script.anchorRoot.childCount >= 2)
-                    script.CreateCurve();
+                Target.anchorRoot.localPosition = Vector3.zero;
+                Target.anchorRoot.localRotation = Quaternion.identity;
+                if (Target.anchorRoot.childCount >= 2)
+                    Target.CreateCurve();
             }
-            if (script.nodeRoot)
+            if (Target.nodeRoot)
             {
-                script.nodeRoot.localPosition = Vector3.zero;
-                script.nodeRoot.localRotation = Quaternion.identity;
+                Target.nodeRoot.localPosition = Vector3.zero;
+                Target.nodeRoot.localRotation = Quaternion.identity;
             }
         }
 
         protected virtual void OnSceneGUI()
         {
             #region Coordinate System
-            Handles.color = blue;
+            Handles.color = Blue;
+            var horizontal = Target.transform.right * LineLength;
+            var vertical = Target.transform.up * LineLength;
+            DrawSphereCap(Target.transform.position, Quaternion.identity, NodeSize);
 
-            var horizontal = script.transform.right * lineLength;
-            var vertical = script.transform.up * lineLength;
-            DrawSphereCap(script.transform.position, Quaternion.identity, nodeSize);
-
-            Handles.DrawLine(script.transform.position - horizontal, script.transform.position + horizontal);
-            Handles.DrawLine(script.transform.position - vertical, script.transform.position + vertical);
+            Handles.DrawLine(Target.transform.position - horizontal, Target.transform.position + horizontal);
+            Handles.DrawLine(Target.transform.position - vertical, Target.transform.position + vertical);
             #endregion
 
             #region Anchors And Curve
-            if (script.anchorRoot)
+            if (Target.anchorRoot)
             {
-                foreach (Transform anchor in script.anchorRoot)
+                foreach (Transform anchor in Target.anchorRoot)
                 {
-                    DrawSphereCap(anchor.position, Quaternion.identity, nodeSize);
+                    DrawSphereCap(anchor.position, Quaternion.identity, NodeSize);
                 }
 
-                if (script.anchorRoot.childCount >= 2)
+                if (Target.anchorRoot.childCount >= 2)
                 {
-                    var maxTime = script.curve[script.curve.Length - 1].time;
-                    for (float timer = 0; timer < maxTime; timer += delta)
+                    var maxTime = Target.curve[Target.curve.Length - 1].time;
+                    for (float timer = 0; timer < maxTime; timer += Delta)
                     {
-                        var timerPoint = script.anchorRoot.TransformPoint(script.curve.Evaluate(timer));
-                        var deltaPoint = script.anchorRoot.TransformPoint(script.curve.Evaluate(Mathf.Clamp(timer + delta, 0, maxTime)));
+                        var timerPoint = Target.anchorRoot.TransformPoint(Target.curve.Evaluate(timer));
+                        var deltaPoint = Target.anchorRoot.TransformPoint(Target.curve.Evaluate(Mathf.Clamp(timer + Delta, 0, maxTime)));
                         Handles.DrawLine(timerPoint, deltaPoint);
                     }
                 }
             }
             #endregion
 
-            if (AnchorEditor.isOpen)
+            if (AnchorEditor.IsOpen)
             {
                 #region Circular Settings
-                if (AnchorEditor.isCircularSettingsReasonable)
+                if (AnchorEditor.IsCircularSettingsReasonable)
                 {
-                    var from = Quaternion.AngleAxis(AnchorEditor.from, script.transform.forward) * Vector3.up;
-                    var to = Quaternion.AngleAxis(AnchorEditor.to, script.transform.forward) * Vector3.up;
-                    var angle = AnchorEditor.to - AnchorEditor.from;
+                    var from = Quaternion.AngleAxis(AnchorEditor.From, Target.transform.forward) * Vector3.up;
+                    var to = Quaternion.AngleAxis(AnchorEditor.To, Target.transform.forward) * Vector3.up;
+                    var angle = AnchorEditor.To - AnchorEditor.From;
 
-                    Handles.color = green;
-                    Handles.DrawWireArc(AnchorEditor.center.position, script.transform.forward, from, angle, AnchorEditor.radius);
+                    Handles.color = Green;
+                    Handles.DrawWireArc(AnchorEditor.Center.position, Target.transform.forward, from, angle, AnchorEditor.Radius);
 
-                    DrawArrow(AnchorEditor.center.position, from, AnchorEditor.radius, nodeSize, string.Empty, green);
-                    DrawArrow(AnchorEditor.center.position, to, AnchorEditor.radius, nodeSize, string.Empty, green);
+                    DrawSphereArrow(AnchorEditor.Center.position, from, AnchorEditor.Radius, NodeSize, Green, string.Empty);
+                    DrawSphereArrow(AnchorEditor.Center.position, to, AnchorEditor.Radius, NodeSize, Green, string.Empty);
 
-                    if (AnchorEditor.countC > 2)
+                    if (AnchorEditor.CountC > 2)
                     {
-                        var space = angle / (AnchorEditor.countC - 1);
-                        for (int i = 0; i < AnchorEditor.countC - 2; i++)
+                        var space = angle / (AnchorEditor.CountC - 1);
+                        for (int i = 0; i < AnchorEditor.CountC - 2; i++)
                         {
-                            var direction = Quaternion.AngleAxis(AnchorEditor.from + space * (i + 1), script.transform.forward) * Vector3.up;
-                            DrawArrow(AnchorEditor.center.position, direction.normalized, AnchorEditor.radius, nodeSize, string.Empty, green);
+                            var direction = Quaternion.AngleAxis(AnchorEditor.From + space * (i + 1), Target.transform.forward) * Vector3.up;
+                            DrawSphereArrow(AnchorEditor.Center.position, direction.normalized, AnchorEditor.Radius, NodeSize, Green, string.Empty);
                         }
                     }
                 }
                 #endregion
 
                 #region Linear Settings
-                if (AnchorEditor.isLinearSettingsReasonable)
+                if (AnchorEditor.IsLinearSettingsReasonable)
                 {
-                    var direction = (AnchorEditor.end.position - AnchorEditor.start.position).normalized;
-                    var space = Vector3.Distance(AnchorEditor.start.position, AnchorEditor.end.position) / (AnchorEditor.countL + 1);
+                    var direction = (AnchorEditor.End.position - AnchorEditor.Start.position).normalized;
+                    var space = Vector3.Distance(AnchorEditor.Start.position, AnchorEditor.End.position) / (AnchorEditor.CountL + 1);
 
-                    Handles.color = green;
-                    Handles.DrawLine(AnchorEditor.start.position, AnchorEditor.end.position);
-                    for (int i = 0; i < AnchorEditor.countL; i++)
+                    Handles.color = Green;
+                    Handles.DrawLine(AnchorEditor.Start.position, AnchorEditor.End.position);
+                    for (int i = 0; i < AnchorEditor.CountL; i++)
                     {
-                        DrawSphereCap(AnchorEditor.start.position + direction * space * (i + 1), Quaternion.identity, nodeSize);
+                        DrawSphereCap(AnchorEditor.Start.position + direction * space * (i + 1), Quaternion.identity, NodeSize);
                     }
                 }
                 #endregion
@@ -123,16 +121,16 @@ namespace Mogoson.Machinery
 
         protected void EstimateCount()
         {
-            var estimate = script.curve[script.curve.Length - 1].time / script.space;
-            script.count = (int)Math.Round(estimate, MidpointRounding.AwayFromZero);
+            var estimate = Target.curve[Target.curve.Length - 1].time / Target.space;
+            Target.count = (int)Math.Round(estimate, MidpointRounding.AwayFromZero);
             MarkSceneDirty();
         }
 
         protected void DeleteNodes()
         {
-            while (script.nodeRoot.childCount > 0)
+            while (Target.nodeRoot.childCount > 0)
             {
-                DestroyImmediate(script.nodeRoot.GetChild(0).gameObject);
+                DestroyImmediate(Target.nodeRoot.GetChild(0).gameObject);
             }
             MarkSceneDirty();
         }
@@ -143,22 +141,22 @@ namespace Mogoson.Machinery
         {
             DrawDefaultInspector();
 
-            if (script.anchorRoot == null)
+            if (Target.anchorRoot == null)
                 return;
 
-            script.anchorRoot.localPosition = Vector3.zero;
-            script.anchorRoot.localRotation = Quaternion.identity;
+            Target.anchorRoot.localPosition = Vector3.zero;
+            Target.anchorRoot.localRotation = Quaternion.identity;
 
             if (GUILayout.Button("Anchor Editor"))
-                AnchorEditor.ShowEditor(script);
+                AnchorEditor.ShowEditor(Target);
 
-            if (script.anchorRoot.childCount < 2)
+            if (Target.anchorRoot.childCount < 2)
                 return;
 
-            if (script.curve == null)
-                script.CreateCurve();
+            if (Target.curve == null)
+                Target.CreateCurve();
 
-            if (script.nodeRoot == null || script.nodePrefab == null)
+            if (Target.nodeRoot == null || Target.nodePrefab == null)
                 return;
 
             GUILayout.BeginHorizontal("Node Editor", "Window", GUILayout.Height(45));
@@ -168,7 +166,7 @@ namespace Mogoson.Machinery
             if (GUILayout.Button("Create"))
             {
                 DeleteNodes();
-                script.CreateNodes();
+                Target.CreateNodes();
             }
 
             if (GUILayout.Button("Delete"))

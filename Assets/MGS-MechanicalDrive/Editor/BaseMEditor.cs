@@ -1,27 +1,24 @@
 ﻿/*************************************************************************
  *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
- *  File         :  Node.cs
- *  Description  :  Define Node component.
+ *  File         :  BaseMEditor.cs
+ *  Description  :  Custom base editor.
  *------------------------------------------------------------------------
  *  Author       :  Mogoson
  *  Version      :  0.1.0
- *  Date         :  6/21/2017
+ *  Date         :  5/8/2018
  *  Description  :  Initial development version.
  *************************************************************************/
 
+using Mogoson.UEditor;
 using UnityEngine;
 
 namespace Mogoson.Machinery
 {
-    [AddComponentMenu("Mogoson/Machinery/Node")]
-    public class Node : MonoBehaviour
+    public class BaseMEditor : GenericEditor
     {
         #region Field and Property
-        /// <summary>
-        /// ID of node in the chain.
-        /// </summary>
-        public int ID;
+        protected readonly Color Green = new Color(0, 1, 0, 1);
         #endregion
     }
 }
