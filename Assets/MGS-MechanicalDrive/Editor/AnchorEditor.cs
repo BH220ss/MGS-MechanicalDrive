@@ -29,7 +29,7 @@ namespace Mogoson.Machinery
 
         protected static Chain targetChain;
         protected static Material material;
-        protected const string MaterialPath = "Assets/MGS-Machinery/Materials/Anchor.mat";
+        protected const string MaterialPath = "Assets/MGS-MechanicalDrive/Materials/Anchor.mat";
 
         protected static string prefix = "Anchor";
         protected const string RendererName = "AnchorRenderer";
@@ -330,14 +330,6 @@ namespace Mogoson.Machinery
 #else
             EditorApplication.MarkSceneDirty();
 #endif
-        }
-        #endregion
-
-        #region Public Method
-        public static void ShowEditor(Chain chain)
-        {
-            targetChain = chain;
-            ShowEditorWindow();
         }
         #endregion
     }

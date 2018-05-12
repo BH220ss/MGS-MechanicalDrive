@@ -10,6 +10,7 @@
  *  Description  :  Initial development version.
  *************************************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mogoson.Machinery
@@ -18,23 +19,53 @@ namespace Mogoson.Machinery
     /// Gear rotate around axis Z.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/Gear")]
-    public class Gear : BaseMechanism
+    public class Gear : EngageGear
     {
         #region Field and Property
         /// <summary>
-        /// Radius of gear.
+        /// Coaxial gears.
         /// </summary>
-        public float radius = 0.5f;
+        public List<CoaxialGear> coaxialGears;
+        #endregion
+
+        #region Protected Method
+        /// <summary>
+        /// Drive coaxial gears.
+        /// </summary>
+        /// <param name="velocity">Angular velocity.</param>
+        protected void DriveCoaxialGears(float velocity)
+        {
+            foreach (var gear in coaxialGears)
+            {
+                gear.AngularDrive(velocity);
+            }
+        }
         #endregion
 
         #region Public Method
         /// <summary>
-        /// Drive gear.
+        /// Drive gear by linear velocity..
         /// </summary>
-        /// <param name="speed">Line speed.</param>
-        public override void Drive(float speed)
+        /// <param name="velocity">Linear velocity.</param>
+        public override void LinearDrive(float velocity)
         {
-            transform.Rotate(Vector3.forward, speed / radius * Time.deltaTime, Space.Self);
+            var angularVelocity = velocity / radius * Mathf.Rad2Deg;
+            transform.Rotate(Vector3.forward, angularVelocity * Time.deltaTime, Space.Self);
+
+            DriveCoaxialGears(angularVelocity);
+            DriveEngageMechanisms(velocity);
+        }
+
+        /// <summary>
+        /// Drive gear by angular velocity.
+        /// </summary>
+        /// <param name="velocity">Angular velocity.</param>
+        public override void AngularDrive(float velocity)
+        {
+            transform.Rotate(Vector3.forward, velocity * Time.deltaTime, Space.Self);
+
+            DriveCoaxialGears(velocity);
+            DriveEngageMechanisms(velocity * Mathf.Deg2Rad * radius);
         }
         #endregion
     }

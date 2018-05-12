@@ -37,7 +37,7 @@ namespace Mogoson.Machinery
 
         protected virtual void Update()
         {
-            Drive(power);
+            LinearDrive(power);
         }
         #endregion
 

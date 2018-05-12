@@ -47,7 +47,7 @@ namespace Mogoson.Machinery
         /// Drive worm and gear.
         /// </summary>
         /// <param name="speed">Line speed.</param>
-        public override void Drive(float speed)
+        public override void LinearDrive(float speed)
         {
             var wormSpeed = speed / worm.radius * Time.deltaTime;
             worm.transform.Rotate(Vector3.forward, wormSpeed, Space.Self);

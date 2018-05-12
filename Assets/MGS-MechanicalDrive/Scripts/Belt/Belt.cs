@@ -37,12 +37,12 @@ namespace Mogoson.Machinery
 
         #region Public Method
         /// <summary>
-        /// Drive belt.
+        /// Drive belt by linear velocity.
         /// </summary>
-        /// <param name="speed">Line speed.</param>
-        public override void Drive(float speed)
+        /// <param name="velocity">Linear velocity.</param>
+        public override void LinearDrive(float velocity)
         {
-            beltRenderer.material.mainTextureOffset += new Vector2(speed * Mathf.Deg2Rad * Time.deltaTime, 0);
+            beltRenderer.material.mainTextureOffset += new Vector2(velocity * Time.deltaTime, 0);
         }
         #endregion
     }

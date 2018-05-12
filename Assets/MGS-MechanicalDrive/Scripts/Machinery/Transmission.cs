@@ -32,11 +32,11 @@ namespace Mogoson.Machinery
         /// Drive mechanisms.
         /// </summary>
         /// <param name="speed">Line speed.</param>
-        public override void Drive(float speed)
+        public override void LinearDrive(float speed)
         {
             foreach (var unit in mechanismUnits)
             {
-                unit.mechanism.Drive(speed * unit.ratio);
+                unit.mechanism.LinearDrive(speed * unit.ratio);
             }
         }
         #endregion

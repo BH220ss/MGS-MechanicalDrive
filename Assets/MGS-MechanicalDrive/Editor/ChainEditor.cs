@@ -147,9 +147,6 @@ namespace Mogoson.Machinery
             Target.anchorRoot.localPosition = Vector3.zero;
             Target.anchorRoot.localRotation = Quaternion.identity;
 
-            if (GUILayout.Button("Anchor Editor"))
-                AnchorEditor.ShowEditor(Target);
-
             if (Target.anchorRoot.childCount < 2)
                 return;
 
@@ -159,6 +156,7 @@ namespace Mogoson.Machinery
             if (Target.nodeRoot == null || Target.nodePrefab == null)
                 return;
 
+            GUILayout.Space(10);
             GUILayout.BeginHorizontal("Node Editor", "Window", GUILayout.Height(45));
             if (GUILayout.Button("Estimate"))
                 EstimateCount();

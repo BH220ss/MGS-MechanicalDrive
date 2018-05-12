@@ -62,7 +62,7 @@ namespace Mogoson.Machinery
         /// Drive vibrator.
         /// </summary>
         /// <param name="speed">Line speed.</param>
-        public override void Drive(float speed)
+        public override void LinearDrive(float speed)
         {
             currentAngle += speed * Time.deltaTime;
             var direction = Quaternion.AngleAxis(currentAngle, transform.forward) * transform.right;

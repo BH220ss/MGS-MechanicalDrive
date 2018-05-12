@@ -1,12 +1,12 @@
 ﻿/*************************************************************************
  *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
- *  File         :  Synchronizer.cs
- *  Description  :  Define Synchronizer component.
+ *  File         :  CoaxialGear.cs
+ *  Description  :  Define CoaxialGear component.
  *------------------------------------------------------------------------
  *  Author       :  Mogoson
  *  Version      :  0.1.0
- *  Date         :  6/27/2017
+ *  Date         :  5/12/2018
  *  Description  :  Initial development version.
  *************************************************************************/
 
@@ -15,29 +15,24 @@ using UnityEngine;
 namespace Mogoson.Machinery
 {
     /// <summary>
-    /// Synchronizer for mechanisms.
+    /// coaxial gear with the same axis as another gear.
     /// </summary>
-    [AddComponentMenu("Mogoson/Machinery/Synchronizer")]
-    public class Synchronizer : BaseMechanism
+    [AddComponentMenu("Mogoson/Machinery/CoaxialGear")]
+    public class CoaxialGear : EngageGear
     {
-        #region Field and Property
-        /// <summary>
-        /// Mechanisms drive by this synchronizer.
-        /// </summary>
-        public BaseMechanism[] mechanisms;
-        #endregion
-
         #region Public Method
         /// <summary>
-        /// Drive mechanisms.
+        /// This method does not work.
         /// </summary>
-        /// <param name="speed">Line speed.</param>
-        public override void LinearDrive(float speed)
+        public override void LinearDrive(float velocity) { }
+
+        /// <summary>
+        /// Drive gear by angular velocity.
+        /// </summary>
+        /// <param name="velocity">Angular velocity.</param>
+        public override void AngularDrive(float velocity)
         {
-            foreach (var mechanism in mechanisms)
-            {
-                mechanism.LinearDrive(speed);
-            }
+            DriveEngageMechanisms(velocity * Mathf.Deg2Rad * radius);
         }
         #endregion
     }

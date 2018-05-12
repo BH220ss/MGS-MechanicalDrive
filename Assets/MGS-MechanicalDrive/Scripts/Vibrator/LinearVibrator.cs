@@ -68,7 +68,7 @@ namespace Mogoson.Machinery
         /// Drive vibrator.
         /// </summary>
         /// <param name="speed">Line speed.</param>
-        public override void Drive(float speed)
+        public override void LinearDrive(float speed)
         {
             currentOffset += speed * Mathf.Deg2Rad * direction * Time.deltaTime;
             if (currentOffset < -amplitudeRadius || currentOffset > amplitudeRadius)
