@@ -30,18 +30,21 @@ namespace Mogoson.Machinery
         #endregion
 
         #region Protected Method
-        protected virtual void Awake()
-        {
-            damper = GetComponent<Damper>();
-        }
-
         protected virtual void Update()
         {
-            LinearDrive(power);
+            Drive(power);
         }
         #endregion
 
         #region Public Method
+        /// <summary>
+        /// Initialize engine.
+        /// </summary>
+        public override void Initialize()
+        {
+            damper = GetComponent<Damper>();
+        }
+
         /// <summary>
         /// Turn on engine.
         /// </summary>

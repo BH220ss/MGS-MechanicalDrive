@@ -64,11 +64,11 @@ namespace Mogoson.Machinery
 
                 if (Target.anchorRoot.childCount >= 2)
                 {
-                    var maxTime = Target.curve[Target.curve.Length - 1].time;
+                    var maxTime = Target.Curve[Target.Curve.Length - 1].time;
                     for (float timer = 0; timer < maxTime; timer += Delta)
                     {
-                        var timerPoint = Target.anchorRoot.TransformPoint(Target.curve.Evaluate(timer));
-                        var deltaPoint = Target.anchorRoot.TransformPoint(Target.curve.Evaluate(Mathf.Clamp(timer + Delta, 0, maxTime)));
+                        var timerPoint = Target.anchorRoot.TransformPoint(Target.Curve.Evaluate(timer));
+                        var deltaPoint = Target.anchorRoot.TransformPoint(Target.Curve.Evaluate(Mathf.Clamp(timer + Delta, 0, maxTime)));
                         Handles.DrawLine(timerPoint, deltaPoint);
                     }
                 }
@@ -121,7 +121,7 @@ namespace Mogoson.Machinery
 
         protected void EstimateCount()
         {
-            var estimate = Target.curve[Target.curve.Length - 1].time / Target.space;
+            var estimate = Target.Curve[Target.Curve.Length - 1].time / Target.space;
             Target.count = (int)Math.Round(estimate, MidpointRounding.AwayFromZero);
             MarkSceneDirty();
         }
@@ -150,7 +150,7 @@ namespace Mogoson.Machinery
             if (Target.anchorRoot.childCount < 2)
                 return;
 
-            if (Target.curve == null)
+            if (Target.Curve == null)
                 Target.CreateCurve();
 
             if (Target.nodeRoot == null || Target.nodePrefab == null)

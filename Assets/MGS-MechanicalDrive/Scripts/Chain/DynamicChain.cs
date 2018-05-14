@@ -22,15 +22,15 @@ namespace Mogoson.Machinery
         /// Drive chain.
         /// </summary>
         /// <param name="velocity">Linear velocity.</param>
-        public override void LinearDrive(float velocity)
+        public override void Drive(float velocity)
         {
             CreateCurve();
 
-            var maxTime = curve[curve.Length - 1].time;
+            var maxTime = Curve[Curve.Length - 1].time;
             if (Mathf.Abs(timer) >= maxTime)
                 timer -= maxTime;
 
-            base.LinearDrive(velocity);
+            base.Drive(velocity);
         }
         #endregion
     }

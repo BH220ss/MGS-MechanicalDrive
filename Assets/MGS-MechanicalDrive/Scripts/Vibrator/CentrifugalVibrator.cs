@@ -18,7 +18,7 @@ namespace Mogoson.Machinery
     /// Centrifugal vibrator.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/CentrifugalVibrator")]
-    public class CentrifugalVibrator : BaseMechanism
+    public class CentrifugalVibrator : AngularMechanism
     {
         #region Field and Property
         /// <summary>
@@ -38,8 +38,9 @@ namespace Mogoson.Machinery
         #endregion
 
         #region Protected Method
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             StartPosition = transform.localPosition;
         }
 
@@ -59,12 +60,21 @@ namespace Mogoson.Machinery
 
         #region Public Method
         /// <summary>
-        /// Drive vibrator.
+        /// Drive vibrator by linear velocity.
         /// </summary>
-        /// <param name="speed">Line speed.</param>
-        public override void LinearDrive(float speed)
+        /// <param name="velocity">Linear velocity.</param>
+        public override void Drive(float velocity)
         {
-            currentAngle += speed * Time.deltaTime;
+            AngularDrive(velocity / amplitudeRadius * Mathf.Rad2Deg);
+        }
+
+        /// <summary>
+        /// Drive vibrator by angular velocity.
+        /// </summary>
+        /// <param name="velocity">Angular velocity.</param>
+        public override void AngularDrive(float velocity)
+        {
+            currentAngle += velocity * Time.deltaTime;
             var direction = Quaternion.AngleAxis(currentAngle, transform.forward) * transform.right;
             transform.localPosition = StartPosition + GetLocalDirection(direction) * amplitudeRadius;
         }

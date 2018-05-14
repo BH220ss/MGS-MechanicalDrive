@@ -23,37 +23,37 @@ namespace Mogoson.Machinery
     {
         #region Field and Property
         /// <summary>
-        /// Coaxial gears.
+        /// Conjugated mechanism.
         /// </summary>
-        public List<CoaxialGear> coaxialGears;
+        public List<AngularMechanism> conjugates = new List<AngularMechanism>();
         #endregion
 
         #region Protected Method
         /// <summary>
-        /// Drive coaxial gears.
+        /// Drive conjugated mechanism by angular velocity.
         /// </summary>
         /// <param name="velocity">Angular velocity.</param>
-        protected void DriveCoaxialGears(float velocity)
+        protected void DriveConjugates(float velocity)
         {
-            foreach (var gear in coaxialGears)
+            foreach (var conjugate in conjugates)
             {
-                gear.AngularDrive(velocity);
+                conjugate.AngularDrive(velocity);
             }
         }
         #endregion
 
         #region Public Method
         /// <summary>
-        /// Drive gear by linear velocity..
+        /// Drive gear by linear velocity.
         /// </summary>
         /// <param name="velocity">Linear velocity.</param>
-        public override void LinearDrive(float velocity)
+        public override void Drive(float velocity)
         {
             var angularVelocity = velocity / radius * Mathf.Rad2Deg;
             transform.Rotate(Vector3.forward, angularVelocity * Time.deltaTime, Space.Self);
 
-            DriveCoaxialGears(angularVelocity);
-            DriveEngageMechanisms(velocity);
+            DriveConjugates(angularVelocity);
+            DriveEngages(velocity);
         }
 
         /// <summary>
@@ -64,8 +64,8 @@ namespace Mogoson.Machinery
         {
             transform.Rotate(Vector3.forward, velocity * Time.deltaTime, Space.Self);
 
-            DriveCoaxialGears(velocity);
-            DriveEngageMechanisms(velocity * Mathf.Deg2Rad * radius);
+            DriveConjugates(velocity);
+            DriveEngages(velocity * Mathf.Deg2Rad * radius);
         }
         #endregion
     }

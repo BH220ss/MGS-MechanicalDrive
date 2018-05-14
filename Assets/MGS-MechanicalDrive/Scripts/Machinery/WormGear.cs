@@ -18,7 +18,7 @@ namespace Mogoson.Machinery
     /// Worm with gear.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/WormGear")]
-    public class WormGear : BaseMechanism
+    public class WormGear : Mechanism
     {
         #region Field and Property
         /// <summary>
@@ -47,7 +47,7 @@ namespace Mogoson.Machinery
         /// Drive worm and gear.
         /// </summary>
         /// <param name="speed">Line speed.</param>
-        public override void LinearDrive(float speed)
+        public override void Drive(float speed)
         {
             var wormSpeed = speed / worm.radius * Time.deltaTime;
             worm.transform.Rotate(Vector3.forward, wormSpeed, Space.Self);

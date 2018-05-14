@@ -18,7 +18,7 @@ namespace Mogoson.Machinery
     /// Linear vibrator.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/LinearVibrator")]
-    public class LinearVibrator : BaseMechanism
+    public class LinearVibrator : Mechanism
     {
         #region Field and Property
         /// <summary>
@@ -57,20 +57,21 @@ namespace Mogoson.Machinery
         #endregion
 
         #region Protected Method
-        protected virtual void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             StartPosition = transform.localPosition;
         }
         #endregion
 
         #region Public Method
         /// <summary>
-        /// Drive vibrator.
+        /// Drive vibrator by linear velocity.
         /// </summary>
-        /// <param name="speed">Line speed.</param>
-        public override void LinearDrive(float speed)
+        /// <param name="velocity">Linear velocity.</param>
+        public override void Drive(float velocity)
         {
-            currentOffset += speed * Mathf.Deg2Rad * direction * Time.deltaTime;
+            currentOffset += velocity * Mathf.Deg2Rad * direction * Time.deltaTime;
             if (currentOffset < -amplitudeRadius || currentOffset > amplitudeRadius)
             {
                 direction *= -1;

@@ -16,7 +16,7 @@ using UnityEngine;
 namespace Mogoson.Machinery
 {
     [AddComponentMenu("Mogoson/Machinery/Chain")]
-    public class Chain : BaseMechanism
+    public class Chain : Mechanism
     {
         #region Field and Property
         /// <summary>
@@ -53,7 +53,7 @@ namespace Mogoson.Machinery
         /// <summary>
         /// VectorAnimationCurve of nodes.
         /// </summary>
-        public VectorAnimationCurve curve { protected set; get; }
+        public VectorAnimationCurve Curve { protected set; get; }
 
         /// <summary>
         /// Timer for VectorAnimationCurve.
@@ -67,11 +67,6 @@ namespace Mogoson.Machinery
         #endregion
 
         #region Private Method
-        protected virtual void Awake()
-        {
-            CreateCurve();
-        }
-
         /// <summary>
         /// Tow node move and rotate base on VectorAnimationCurve.
         /// </summary>
@@ -80,8 +75,8 @@ namespace Mogoson.Machinery
         protected void TowNodeBaseOnCurve(Transform node, float time)
         {
             //Calculate position and direction.
-            var nodePos = anchorRoot.TransformPoint(curve.Evaluate(time));
-            var deltaPos = anchorRoot.TransformPoint(curve.Evaluate(time + delta));
+            var nodePos = anchorRoot.TransformPoint(Curve.Evaluate(time));
+            var deltaPos = anchorRoot.TransformPoint(Curve.Evaluate(time + delta));
             var secant = (deltaPos - nodePos).normalized;
             var worldUp = Vector3.Cross(secant, transform.forward);
 
@@ -93,28 +88,49 @@ namespace Mogoson.Machinery
 
         #region Public Method
         /// <summary>
+        /// Initialize chain.
+        /// </summary>
+        public override void Initialize()
+        {
+            CreateCurve();
+        }
+
+        /// <summary>
+        /// Drive chain.
+        /// </summary>
+        /// <param name="velocity">Linear velocity.</param>
+        public override void Drive(float velocity)
+        {
+            timer += velocity * Mathf.Deg2Rad * Time.deltaTime;
+            foreach (var node in nodes)
+            {
+                TowNodeBaseOnCurve(node.transform, node.ID * space + timer);
+            }
+        }
+
+        /// <summary>
         /// Create the curve base on anchors.
         /// </summary>
         public virtual void CreateCurve()
         {
-            curve = new VectorAnimationCurve();
-            curve.PreWrapMode = curve.PostWrapMode = WrapMode.Loop;
+            Curve = new VectorAnimationCurve();
+            Curve.PreWrapMode = Curve.PostWrapMode = WrapMode.Loop;
 
             //Add frame keys to curve.
             float time = 0;
             for (int i = 0; i < anchorRoot.childCount - 1; i++)
             {
-                curve.AddKey(time, anchorRoot.GetChild(i).localPosition);
+                Curve.AddKey(time, anchorRoot.GetChild(i).localPosition);
                 time += Vector3.Distance(anchorRoot.GetChild(i).position, anchorRoot.GetChild(i + 1).position);
             }
 
             //Add last key and loop key(the first key).
-            curve.AddKey(time, anchorRoot.GetChild(anchorRoot.childCount - 1).localPosition);
+            Curve.AddKey(time, anchorRoot.GetChild(anchorRoot.childCount - 1).localPosition);
             time += Vector3.Distance(anchorRoot.GetChild(anchorRoot.childCount - 1).position, anchorRoot.GetChild(0).position);
-            curve.AddKey(time, anchorRoot.GetChild(0).localPosition);
+            Curve.AddKey(time, anchorRoot.GetChild(0).localPosition);
 
             //Smooth the in and out tangents of curve keyframes.
-            curve.SmoothTangents(0);
+            Curve.SmoothTangents(0);
         }
 
         /// <summary>
@@ -135,19 +151,6 @@ namespace Mogoson.Machinery
                 //Set node ID.
                 nodes[i] = nodeClone.GetComponent<Node>();
                 nodes[i].ID = i;
-            }
-        }
-
-        /// <summary>
-        /// Drive chain.
-        /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public override void LinearDrive(float velocity)
-        {
-            timer += velocity * Mathf.Deg2Rad * Time.deltaTime;
-            foreach (var node in nodes)
-            {
-                TowNodeBaseOnCurve(node.transform, node.ID * space + timer);
             }
         }
         #endregion

@@ -2,7 +2,7 @@
  *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  Mechanism.cs
- *  Description  :  Define abstract BaseMechanism and EngageGear.
+ *  Description  :  Define abstract AngularMechanism and EngageGear.
  *------------------------------------------------------------------------
  *  Author       :  Mogoson
  *  Version      :  0.1.0
@@ -12,65 +12,32 @@
  *  Author       :  Mogoson
  *  Version      :  0.1.1
  *  Date         :  5/3/2018
- *  Description  :  Optimize BaseMechanism and define EngageGear.
+ *  Description  :  Optimize AngularMechanism and define EngageGear.
  *************************************************************************/
 
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mogoson.Machinery
 {
     /// <summary>
-    /// Mechanism unit.
+    /// Mechanism can be drived by angular velocity.
     /// </summary>
-    [Serializable]
-    public struct MechanismUnit
-    {
-        #region Field and Property
-        /// <summary>
-        /// Mechanism to drive.
-        /// </summary>
-        public BaseMechanism mechanism;
-
-        /// <summary>
-        /// Ratio of linear velocity.
-        /// </summary>
-        public float ratio;
-        #endregion
-
-        #region Public Method
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="mechanism">Mechanism to drive.</param>
-        /// <param name="ratio">Ratio of linear velocity.</param>
-        public MechanismUnit(BaseMechanism mechanism, float ratio)
-        {
-            this.mechanism = mechanism;
-            this.ratio = ratio;
-        }
-        #endregion
-    }
-
-    /// <summary>
-    /// Base mechanism.
-    /// </summary>
-    public abstract class BaseMechanism : MonoBehaviour
+    public abstract class AngularMechanism : Mechanism
     {
         #region Public Method
         /// <summary>
-        /// Drive mechanism by linear velocity.
+        /// Drive Mechanism by angular velocity.
         /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public abstract void LinearDrive(float velocity);
+        /// <param name="velocity">Angular velocity.</param>
+        public abstract void AngularDrive(float velocity);
         #endregion
     }
 
     /// <summary>
     /// Gear with engage mechanisms.
     /// </summary>
-    public abstract class EngageGear : BaseMechanism
+    public abstract class EngageGear : AngularMechanism
     {
         #region Field and Property
         /// <summary>
@@ -81,7 +48,7 @@ namespace Mogoson.Machinery
         /// <summary>
         /// Engaged mechanisms.
         /// </summary>
-        public List<BaseMechanism> engageMechanisms;
+        public List<Mechanism> engages;
 
         /// <summary>
         /// Power gear.
@@ -94,11 +61,11 @@ namespace Mogoson.Machinery
         /// Drive Engaged mechanisms by linear velocity.
         /// </summary>
         /// <param name="velocity">Linear velocity.</param>
-        protected void DriveEngageMechanisms(float velocity)
+        protected void DriveEngages(float velocity)
         {
-            foreach (var mechanism in engageMechanisms)
+            foreach (var engage in engages)
             {
-                mechanism.LinearDrive(velocity);
+                engage.Drive(velocity);
             }
         }
         #endregion
@@ -108,20 +75,20 @@ namespace Mogoson.Machinery
         /// Drive gear by linear velocity.
         /// </summary>
         /// <param name="velocity">Linear velocity.</param>
-        public override void LinearDrive(float velocity)
+        public override void Drive(float velocity)
         {
             transform.Rotate(Vector3.forward, velocity / radius * Mathf.Rad2Deg * Time.deltaTime, Space.Self);
-            DriveEngageMechanisms(velocity);
+            DriveEngages(velocity);
         }
 
         /// <summary>
         /// Drive gear by angular velocity.
         /// </summary>
         /// <param name="velocity">Angular velocity.</param>
-        public virtual void AngularDrive(float velocity)
+        public override void AngularDrive(float velocity)
         {
             transform.Rotate(Vector3.forward, velocity * Time.deltaTime, Space.Self);
-            DriveEngageMechanisms(velocity * Mathf.Deg2Rad * radius);
+            DriveEngages(velocity * Mathf.Deg2Rad * radius);
         }
 
         /// <summary>
@@ -136,10 +103,10 @@ namespace Mogoson.Machinery
             {
                 BreakEngage();
 
-                if (!gear.engageMechanisms.Contains(this))
+                if (!gear.engages.Contains(this))
                 {
                     //Engage this gear to new power gear.
-                    gear.engageMechanisms.Add(this);
+                    gear.engages.Add(this);
                 }
                 powerGear = gear;
             }
@@ -152,7 +119,7 @@ namespace Mogoson.Machinery
         {
             if (powerGear != null)
             {
-                powerGear.engageMechanisms.Remove(this);
+                powerGear.engages.Remove(this);
                 powerGear = null;
             }
         }

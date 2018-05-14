@@ -19,7 +19,7 @@ namespace Mogoson.Machinery
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/Belt")]
     [RequireComponent(typeof(Renderer))]
-    public class Belt : BaseMechanism
+    public class Belt : Mechanism
     {
         #region Field and Property
         /// <summary>
@@ -28,19 +28,20 @@ namespace Mogoson.Machinery
         protected Renderer beltRenderer;
         #endregion
 
-        #region Private Method
-        protected virtual void Awake()
+        #region Public Method
+        /// <summary>
+        /// Initialize belt.
+        /// </summary>
+        public override void Initialize()
         {
             beltRenderer = GetComponent<Renderer>();
         }
-        #endregion
 
-        #region Public Method
         /// <summary>
         /// Drive belt by linear velocity.
         /// </summary>
         /// <param name="velocity">Linear velocity.</param>
-        public override void LinearDrive(float velocity)
+        public override void Drive(float velocity)
         {
             beltRenderer.material.mainTextureOffset += new Vector2(velocity * Time.deltaTime, 0);
         }

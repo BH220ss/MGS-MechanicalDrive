@@ -1,42 +1,43 @@
 ﻿/*************************************************************************
  *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
- *  File         :  Synchronizer.cs
- *  Description  :  Define Synchronizer component.
+ *  File         :  Transmission.cs
+ *  Description  :  Define Transmission component.
  *------------------------------------------------------------------------
  *  Author       :  Mogoson
  *  Version      :  0.1.0
- *  Date         :  6/27/2017
+ *  Date         :  6/22/2017
  *  Description  :  Initial development version.
  *************************************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mogoson.Machinery
 {
     /// <summary>
-    /// Synchronizer for mechanisms.
+    /// Transmission for mechanisms.
     /// </summary>
-    [AddComponentMenu("Mogoson/Machinery/Synchronizer")]
-    public class Synchronizer : BaseMechanism
+    [AddComponentMenu("Mogoson/Machinery/Transmission")]
+    public class Transmission : Mechanism
     {
         #region Field and Property
         /// <summary>
-        /// Mechanisms drive by this synchronizer.
+        /// Mechanism drive by this Transmission.
         /// </summary>
-        public BaseMechanism[] mechanisms;
+        public List<MechanismUnit> mechanismUnits = new List<MechanismUnit>();
         #endregion
 
         #region Public Method
         /// <summary>
         /// Drive mechanisms.
         /// </summary>
-        /// <param name="speed">Line speed.</param>
-        public override void LinearDrive(float speed)
+        /// <param name="velocity">Drive velocity.</param>
+        public override void Drive(float velocity)
         {
-            foreach (var mechanism in mechanisms)
+            foreach (var unit in mechanismUnits)
             {
-                mechanism.LinearDrive(speed);
+                unit.mechanism.Drive(velocity * unit.coefficient);
             }
         }
         #endregion

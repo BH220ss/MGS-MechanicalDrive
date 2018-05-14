@@ -1,12 +1,12 @@
 ﻿/*************************************************************************
- *  Copyright © 2017-2018 Mogoson. All rights reserved.
+ *  Copyright © 2016-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
- *  File         :  MechDriver.cs
+ *  File         :  MeDriver.cs
  *  Description  :  Define driver for test mechanism quickly.
  *------------------------------------------------------------------------
  *  Author       :  Mogoson
  *  Version      :  0.1.0
- *  Date         :  5/13/2018
+ *  Date         :  4/17/2018
  *  Description  :  Initial development version.
  *************************************************************************/
 
@@ -14,29 +14,29 @@ using UnityEngine;
 
 namespace Mogoson.Machinery
 {
-    [RequireComponent(typeof(BaseMechanism))]
-    public class MechDriver : MonoBehaviour
+    [RequireComponent(typeof(Mechanism))]
+    public class MeDriver : MonoBehaviour
     {
         #region Field and Property
-        public float velocity = 1;
+        public float velocity = 50;
         public KeyCode positive = KeyCode.P;
         public KeyCode negative = KeyCode.N;
 
-        protected BaseMechanism mechanism;
+        protected Mechanism mechanism;
         #endregion
 
         #region Protected Method
         protected virtual void Start()
         {
-            mechanism = GetComponent<BaseMechanism>();
+            mechanism = GetComponent<Mechanism>();
         }
 
         protected virtual void Update()
         {
             if (Input.GetKey(positive))
-                mechanism.LinearDrive(velocity);
+                mechanism.Drive(velocity);
             else if (Input.GetKey(negative))
-                mechanism.LinearDrive(-velocity);
+                mechanism.Drive(-velocity);
         }
         #endregion
     }

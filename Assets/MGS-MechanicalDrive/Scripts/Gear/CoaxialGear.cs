@@ -22,9 +22,13 @@ namespace Mogoson.Machinery
     {
         #region Public Method
         /// <summary>
-        /// This method does not work.
+        /// Drive gear by linear velocity.
         /// </summary>
-        public override void LinearDrive(float velocity) { }
+        /// <param name="velocity">Linear velocity.</param>
+        public override void Drive(float velocity)
+        {
+            DriveEngages(velocity);
+        }
 
         /// <summary>
         /// Drive gear by angular velocity.
@@ -32,7 +36,7 @@ namespace Mogoson.Machinery
         /// <param name="velocity">Angular velocity.</param>
         public override void AngularDrive(float velocity)
         {
-            DriveEngageMechanisms(velocity * Mathf.Deg2Rad * radius);
+            DriveEngages(velocity * Mathf.Deg2Rad * radius);
         }
         #endregion
     }
