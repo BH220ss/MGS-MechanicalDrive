@@ -2,7 +2,8 @@
  *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  Mechanism.cs
- *  Description  :  Define abstract AngularMechanism and EngageGear.
+ *  Description  :  Define abstract AngularMechanism, EngageMechanism
+ *                  and GearMechanism.
  *------------------------------------------------------------------------
  *  Author       :  Mogoson
  *  Version      :  0.1.0
@@ -11,8 +12,9 @@
  *  
  *  Author       :  Mogoson
  *  Version      :  0.1.1
- *  Date         :  5/3/2018
- *  Description  :  Optimize AngularMechanism and define EngageGear.
+ *  Date         :  5/16/2018
+ *  Description  :  Optimize AngularMechanism, define EngageMechanism
+ *                  and GearMechanism.
  *************************************************************************/
 
 using System.Collections.Generic;
@@ -35,25 +37,20 @@ namespace Mogoson.Machinery
     }
 
     /// <summary>
-    /// Gear with engage mechanisms.
+    /// Mechanism with engage mechanisms.
     /// </summary>
-    public abstract class EngageGear : AngularMechanism
+    public abstract class EngageMechanism : AngularMechanism
     {
         #region Field and Property
-        /// <summary>
-        /// Radius of gear.
-        /// </summary>
-        public float radius = 0.5f;
-
         /// <summary>
         /// Engaged mechanisms.
         /// </summary>
         public List<Mechanism> engages;
 
         /// <summary>
-        /// Power gear.
+        /// Engage power mechanism.
         /// </summary>
-        protected EngageGear powerGear;
+        protected EngageMechanism engage;
         #endregion
 
         #region Protected Method
@@ -72,13 +69,70 @@ namespace Mogoson.Machinery
 
         #region Public Method
         /// <summary>
+        /// Drive mechanism by linear velocity.
+        /// </summary>
+        /// <param name="velocity">Linear velocity.</param>
+        public override void Drive(float velocity)
+        {
+            DriveEngages(velocity);
+        }
+
+        /// <summary>
+        /// Engage this mechanism to power mechanism.
+        /// </summary>
+        /// <param name="mechanism">Power mechanism.</param>
+        public void EngageTo(EngageMechanism mechanism)
+        {
+            if (mechanism == null || mechanism == engage)
+                return;
+            else
+            {
+                BreakEngage();
+
+                if (!mechanism.engages.Contains(this))
+                {
+                    //Engage this mechanism to new power mechanism.
+                    mechanism.engages.Add(this);
+                }
+                engage = mechanism;
+            }
+        }
+
+        /// <summary>
+        /// Break engage from power mechanism.
+        /// </summary>
+        public void BreakEngage()
+        {
+            if (engage != null)
+            {
+                engage.engages.Remove(this);
+                engage = null;
+            }
+        }
+        #endregion
+    }
+
+    /// <summary>
+    /// Gear with engage mechanisms.
+    /// </summary>
+    public abstract class GearMechanism : EngageMechanism
+    {
+        #region Field and Property
+        /// <summary>
+        /// Radius of gear.
+        /// </summary>
+        public float radius = 0.5f;
+        #endregion
+
+        #region Public Method
+        /// <summary>
         /// Drive gear by linear velocity.
         /// </summary>
         /// <param name="velocity">Linear velocity.</param>
         public override void Drive(float velocity)
         {
             transform.Rotate(Vector3.forward, velocity / radius * Mathf.Rad2Deg * Time.deltaTime, Space.Self);
-            DriveEngages(velocity);
+            base.Drive(velocity);
         }
 
         /// <summary>
@@ -89,39 +143,6 @@ namespace Mogoson.Machinery
         {
             transform.Rotate(Vector3.forward, velocity * Time.deltaTime, Space.Self);
             DriveEngages(velocity * Mathf.Deg2Rad * radius);
-        }
-
-        /// <summary>
-        /// Engage this gear to power gear.
-        /// </summary>
-        /// <param name="gear"></param>
-        public void EngageTo(EngageGear gear)
-        {
-            if (gear == null || gear == powerGear)
-                return;
-            else
-            {
-                BreakEngage();
-
-                if (!gear.engages.Contains(this))
-                {
-                    //Engage this gear to new power gear.
-                    gear.engages.Add(this);
-                }
-                powerGear = gear;
-            }
-        }
-
-        /// <summary>
-        /// Break engage from power gear.
-        /// </summary>
-        public void BreakEngage()
-        {
-            if (powerGear != null)
-            {
-                powerGear.engages.Remove(this);
-                powerGear = null;
-            }
         }
         #endregion
     }

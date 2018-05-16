@@ -2,7 +2,7 @@
  *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
  *  File         :  GearEditor.cs
- *  Description  :  Custom editor for Gear.
+ *  Description  :  Custom editor for GearMechanism.
  *------------------------------------------------------------------------
  *  Author       :  Mogoson
  *  Version      :  0.1.0
@@ -15,12 +15,12 @@ using UnityEngine;
 
 namespace Mogoson.Machinery
 {
-    [CustomEditor(typeof(Gear), true)]
+    [CustomEditor(typeof(GearMechanism), true)]
     [CanEditMultipleObjects]
     public class GearEditor : BaseMEditor
     {
         #region Field and Property
-        protected Gear Target { get { return target as Gear; } }
+        protected GearMechanism Target { get { return target as GearMechanism; } }
         #endregion
 
         #region Protected Method

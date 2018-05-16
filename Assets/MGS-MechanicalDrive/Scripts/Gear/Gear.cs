@@ -19,25 +19,25 @@ namespace Mogoson.Machinery
     /// Gear rotate around axis Z.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/Gear")]
-    public class Gear : EngageGear
+    public class Gear : GearMechanism
     {
         #region Field and Property
         /// <summary>
-        /// Conjugated mechanism.
+        /// Coaxial mechanism.
         /// </summary>
-        public List<AngularMechanism> conjugates = new List<AngularMechanism>();
+        public List<AngularMechanism> coaxials = new List<AngularMechanism>();
         #endregion
 
         #region Protected Method
         /// <summary>
-        /// Drive conjugated mechanism by angular velocity.
+        /// Drive coaxial mechanism by angular velocity.
         /// </summary>
         /// <param name="velocity">Angular velocity.</param>
-        protected void DriveConjugates(float velocity)
+        protected void DriveCoaxials(float velocity)
         {
-            foreach (var conjugate in conjugates)
+            foreach (var coaxial in coaxials)
             {
-                conjugate.AngularDrive(velocity);
+                coaxial.AngularDrive(velocity);
             }
         }
         #endregion
@@ -49,11 +49,8 @@ namespace Mogoson.Machinery
         /// <param name="velocity">Linear velocity.</param>
         public override void Drive(float velocity)
         {
-            var angularVelocity = velocity / radius * Mathf.Rad2Deg;
-            transform.Rotate(Vector3.forward, angularVelocity * Time.deltaTime, Space.Self);
-
-            DriveConjugates(angularVelocity);
-            DriveEngages(velocity);
+            base.Drive(velocity);
+            DriveCoaxials(velocity / radius * Mathf.Rad2Deg);
         }
 
         /// <summary>
@@ -62,10 +59,8 @@ namespace Mogoson.Machinery
         /// <param name="velocity">Angular velocity.</param>
         public override void AngularDrive(float velocity)
         {
-            transform.Rotate(Vector3.forward, velocity * Time.deltaTime, Space.Self);
-
-            DriveConjugates(velocity);
-            DriveEngages(velocity * Mathf.Deg2Rad * radius);
+            base.AngularDrive(velocity);
+            DriveCoaxials(velocity);
         }
         #endregion
     }

@@ -18,7 +18,7 @@ namespace Mogoson.Machinery
     /// coaxial gear with the same axis as another gear.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/CoaxialGear")]
-    public class CoaxialGear : EngageGear
+    public class CoaxialGear : GearMechanism
     {
         #region Public Method
         /// <summary>
