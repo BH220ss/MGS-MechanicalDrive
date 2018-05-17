@@ -17,11 +17,44 @@
  *                  and GearMechanism.
  *************************************************************************/
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mogoson.Machinery
 {
+    /// <summary>
+    /// Angular mechanism unit.
+    /// </summary>
+    [Serializable]
+    public struct AngularMechanismUnit
+    {
+        #region Field and Property
+        /// <summary>
+        /// Mechanism to drive.
+        /// </summary>
+        public AngularMechanism mechanism;
+
+        /// <summary>
+        /// Coefficient of velocity.
+        /// </summary>
+        public float coefficient;
+        #endregion
+
+        #region Public Method
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="mechanism">Mechanism to drive.</param>
+        /// <param name="coefficient">Coefficient of velocity.</param>
+        public AngularMechanismUnit(AngularMechanism mechanism, float coefficient)
+        {
+            this.mechanism = mechanism;
+            this.coefficient = coefficient;
+        }
+        #endregion
+    }
+
     /// <summary>
     /// Mechanism can be drived by angular velocity.
     /// </summary>
