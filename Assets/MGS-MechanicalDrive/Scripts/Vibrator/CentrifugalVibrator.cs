@@ -60,12 +60,12 @@ namespace Mogoson.Machinery
 
         #region Public Method
         /// <summary>
-        /// Drive vibrator by linear velocity.
+        /// Drive vibrator by angular velocity.
         /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
+        /// <param name="velocity">Angular velocity.</param>
         public override void Drive(float velocity)
         {
-            AngularDrive(velocity / amplitudeRadius * Mathf.Rad2Deg);
+            AngularDrive(velocity);
         }
 
         /// <summary>
