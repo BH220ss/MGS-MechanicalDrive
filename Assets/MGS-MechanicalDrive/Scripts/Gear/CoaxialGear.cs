@@ -27,7 +27,7 @@ namespace Mogoson.Machinery
         /// <param name="velocity">Linear velocity.</param>
         public override void Drive(float velocity)
         {
-            DriveEngages(velocity);
+            DriveEngages(-velocity);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Mogoson.Machinery
         /// <param name="velocity">Angular velocity.</param>
         public override void AngularDrive(float velocity)
         {
-            DriveEngages(velocity * Mathf.Deg2Rad * radius);
+            DriveEngages(-velocity * Mathf.Deg2Rad * radius);
         }
         #endregion
     }

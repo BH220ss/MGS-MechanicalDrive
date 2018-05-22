@@ -15,43 +15,53 @@ using UnityEngine;
 namespace Mogoson.Machinery
 {
     [AddComponentMenu("Mogoson/Machinery/Engine")]
-    public class Engine : Synchronizer
+    public class Engine : MonoBehaviour
     {
         #region Field and Property
         /// <summary>
-        /// Engine output power.
+        /// Revolution velocity (r/min).
         /// </summary>
-        public float power = 100;
+        public float RPM = 60;
 
         /// <summary>
-        /// Damper of engine power.
+        /// Current revolution velocity.
         /// </summary>
-        protected Damper damper;
+        protected float rpm = 0;
+
+        protected float threshold = 1;
+
+        /// <summary>
+        /// Damper of engine rpm.
+        /// </summary>
+        public float damper = 0.5f;
+
+        /// <summary>
+        /// Gear drive by this engine.
+        /// </summary>
+        public GearMechanism gear;
         #endregion
 
         #region Protected Method
         protected virtual void Update()
         {
-            Drive(power);
+            if (Mathf.Abs(rpm - RPM) <= threshold)
+                rpm = RPM;
+            else
+                rpm = Mathf.Lerp(rpm, RPM, damper * Time.deltaTime);
+
+            if (rpm == 0)
+                enabled = false;
+            else
+                gear.AngularDrive(rpm * 6);
         }
         #endregion
 
         #region Public Method
         /// <summary>
-        /// Initialize engine.
-        /// </summary>
-        public override void Initialize()
-        {
-            damper = GetComponent<Damper>();
-        }
-
-        /// <summary>
         /// Turn on engine.
         /// </summary>
         public virtual void TurnOn()
         {
-            if (damper)
-                damper.BeginAccelerate();
             enabled = true;
         }
 
@@ -60,10 +70,7 @@ namespace Mogoson.Machinery
         /// </summary>
         public virtual void TurnOff()
         {
-            if (damper)
-                damper.BeginDecelerate();
-            else
-                enabled = false;
+            RPM = 0;
         }
         #endregion
     }
