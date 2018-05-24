@@ -19,13 +19,13 @@ namespace Mogoson.Machinery
     /// Angular transmission for mechanisms.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/AngularTransmission")]
-    public class AngularTransmission : AngularMechanism
+    public class AngularTransmission : Mechanism, IAngularMechanism
     {
         #region Field and Property
         /// <summary>
         /// Mechanism drive by this transmission.
         /// </summary>
-        public List<AngularMechanismUnit> mechanismUnits = new List<AngularMechanismUnit>();
+        public List<MechanismUnit> mechanismUnits = new List<MechanismUnit>();
         #endregion
 
         #region Public Method
@@ -45,11 +45,14 @@ namespace Mogoson.Machinery
         /// Drive mechanisms by angular velocity.
         /// </summary>
         /// <param name="velocity">Angular velocity.</param>
-        public override void AngularDrive(float velocity)
+        public void AngularDrive(float velocity)
         {
             foreach (var unit in mechanismUnits)
             {
-                unit.mechanism.AngularDrive(velocity * unit.coefficient);
+                if (unit.mechanism is IAngularMechanism)
+                {
+                    (unit.mechanism as IAngularMechanism).AngularDrive(velocity * unit.coefficient);
+                }
             }
         }
         #endregion

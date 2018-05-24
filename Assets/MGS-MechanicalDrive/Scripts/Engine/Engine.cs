@@ -38,7 +38,7 @@ namespace Mogoson.Machinery
         /// <summary>
         /// Gear drive by this engine.
         /// </summary>
-        public GearMechanism gear;
+        public Gear gear;
         #endregion
 
         #region Protected Method

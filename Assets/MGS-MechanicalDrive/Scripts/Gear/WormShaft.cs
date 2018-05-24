@@ -1,8 +1,8 @@
 ﻿/*************************************************************************
  *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
- *  File         :  Worm.cs
- *  Description  :  Define Worm component.
+ *  File         :  WormShaft.cs
+ *  Description  :  Define WormShaft component.
  *------------------------------------------------------------------------
  *  Author       :  Mogoson
  *  Version      :  0.1.0
@@ -18,8 +18,8 @@ namespace Mogoson.Machinery
     /// <summary>
     /// Worm shaft.
     /// </summary>
-    [AddComponentMenu("Mogoson/Machinery/Worm")]
-    public class Worm : Gear
+    [AddComponentMenu("Mogoson/Machinery/WormShaft")]
+    public class WormShaft : Gear
     {
         #region Field and Property
         /// <summary>
@@ -49,7 +49,7 @@ namespace Mogoson.Machinery
 
         #region Public Method
         /// <summary>
-        /// Drive worm by linear velocity.
+        /// Drive worm shaft by linear velocity.
         /// </summary>
         /// <param name="velocity">Linear velocity.</param>
         public override void Drive(float velocity)
@@ -59,7 +59,7 @@ namespace Mogoson.Machinery
         }
 
         /// <summary>
-        /// Drive worm by angular velocity.
+        /// Drive worm shaft by angular velocity.
         /// </summary>
         /// <param name="velocity">Angular velocity.</param>
         public override void AngularDrive(float velocity)

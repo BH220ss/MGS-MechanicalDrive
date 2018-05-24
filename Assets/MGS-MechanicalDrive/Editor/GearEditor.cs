@@ -15,12 +15,12 @@ using UnityEngine;
 
 namespace Mogoson.Machinery
 {
-    [CustomEditor(typeof(GearMechanism), true)]
+    [CustomEditor(typeof(Gear), true)]
     [CanEditMultipleObjects]
     public class GearEditor : BaseMEditor
     {
         #region Field and Property
-        protected GearMechanism Target { get { return target as GearMechanism; } }
+        protected Gear Target { get { return target as Gear; } }
         #endregion
 
         #region Protected Method

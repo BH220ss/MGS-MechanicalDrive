@@ -10,7 +10,6 @@
  *  Description  :  Initial development version.
  *************************************************************************/
 
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mogoson.Machinery
@@ -19,27 +18,13 @@ namespace Mogoson.Machinery
     /// Gear rotate around axis Z.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/Gear")]
-    public class Gear : GearMechanism
+    public class Gear : CoaxeMechanism
     {
         #region Field and Property
         /// <summary>
-        /// Coaxial mechanism.
+        /// Radius of gear.
         /// </summary>
-        public List<AngularMechanism> coaxials = new List<AngularMechanism>();
-        #endregion
-
-        #region Protected Method
-        /// <summary>
-        /// Drive coaxial mechanism by angular velocity.
-        /// </summary>
-        /// <param name="velocity">Angular velocity.</param>
-        protected void DriveCoaxials(float velocity)
-        {
-            foreach (var coaxial in coaxials)
-            {
-                coaxial.AngularDrive(velocity);
-            }
-        }
+        public float radius = 0.5f;
         #endregion
 
         #region Public Method
@@ -49,8 +34,10 @@ namespace Mogoson.Machinery
         /// <param name="velocity">Linear velocity.</param>
         public override void Drive(float velocity)
         {
-            base.Drive(velocity);
-            DriveCoaxials(velocity / radius * Mathf.Rad2Deg);
+            var angular = velocity / radius * Mathf.Rad2Deg;
+            transform.Rotate(Vector3.forward, angular * Time.deltaTime, Space.Self);
+            DriveCoaxes(angular);
+            DriveEngages(-velocity);
         }
 
         /// <summary>
@@ -59,8 +46,9 @@ namespace Mogoson.Machinery
         /// <param name="velocity">Angular velocity.</param>
         public override void AngularDrive(float velocity)
         {
-            base.AngularDrive(velocity);
-            DriveCoaxials(velocity);
+            transform.Rotate(Vector3.forward, velocity * Time.deltaTime, Space.Self);
+            DriveCoaxes(velocity);
+            DriveEngages(-velocity * Mathf.Deg2Rad * radius);
         }
         #endregion
     }

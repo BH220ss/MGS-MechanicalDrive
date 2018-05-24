@@ -18,7 +18,7 @@ namespace Mogoson.Machinery
     /// coaxial gear with the same axis as another gear.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/CoaxialGear")]
-    public class CoaxialGear : GearMechanism
+    public class CoaxialGear : Gear
     {
         #region Public Method
         /// <summary>
@@ -27,6 +27,7 @@ namespace Mogoson.Machinery
         /// <param name="velocity">Linear velocity.</param>
         public override void Drive(float velocity)
         {
+            DriveCoaxes(velocity / radius * Mathf.Rad2Deg);
             DriveEngages(-velocity);
         }
 
@@ -36,6 +37,7 @@ namespace Mogoson.Machinery
         /// <param name="velocity">Angular velocity.</param>
         public override void AngularDrive(float velocity)
         {
+            DriveCoaxes(velocity);
             DriveEngages(-velocity * Mathf.Deg2Rad * radius);
         }
         #endregion

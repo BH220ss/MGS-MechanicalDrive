@@ -18,7 +18,7 @@ namespace Mogoson.Machinery
     /// Centrifugal vibrator.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/CentrifugalVibrator")]
-    public class CentrifugalVibrator : AngularMechanism
+    public class CentrifugalVibrator : Mechanism, IAngularMechanism
     {
         #region Field and Property
         /// <summary>
@@ -72,7 +72,7 @@ namespace Mogoson.Machinery
         /// Drive vibrator by angular velocity.
         /// </summary>
         /// <param name="velocity">Angular velocity.</param>
-        public override void AngularDrive(float velocity)
+        public void AngularDrive(float velocity)
         {
             currentAngle += velocity * Time.deltaTime;
             var direction = Quaternion.AngleAxis(currentAngle, transform.forward) * transform.right;

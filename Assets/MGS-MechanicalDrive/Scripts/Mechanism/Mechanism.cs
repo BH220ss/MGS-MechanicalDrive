@@ -17,83 +17,138 @@
  *                  and GearMechanism.
  *************************************************************************/
 
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mogoson.Machinery
 {
     /// <summary>
-    /// Angular mechanism unit.
-    /// </summary>
-    [Serializable]
-    public struct AngularMechanismUnit
-    {
-        #region Field and Property
-        /// <summary>
-        /// Mechanism to drive.
-        /// </summary>
-        public AngularMechanism mechanism;
-
-        /// <summary>
-        /// Coefficient of velocity.
-        /// </summary>
-        public float coefficient;
-        #endregion
-
-        #region Public Method
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        /// <param name="mechanism">Mechanism to drive.</param>
-        /// <param name="coefficient">Coefficient of velocity.</param>
-        public AngularMechanismUnit(AngularMechanism mechanism, float coefficient)
-        {
-            this.mechanism = mechanism;
-            this.coefficient = coefficient;
-        }
-        #endregion
-    }
-
-    /// <summary>
     /// Mechanism can be drived by angular velocity.
     /// </summary>
-    public abstract class AngularMechanism : Mechanism
+    public interface IAngularMechanism : IMechanism
     {
-        #region Public Method
         /// <summary>
         /// Drive Mechanism by angular velocity.
         /// </summary>
         /// <param name="velocity">Angular velocity.</param>
-        public abstract void AngularDrive(float velocity);
-        #endregion
+        void AngularDrive(float velocity);
+    }
+
+    /// <summary>
+    /// Mechanism with engaged mechanisms.
+    /// </summary>
+    public interface IEngageMechanism : IMechanism
+    {
+        /// <summary>
+        /// Build engage for mechanism.
+        /// </summary>
+        /// <param name="mechanism">Engage mechanism.</param>
+        void BuildEngage(IEngagedMechanism mechanism);
+
+        /// <summary>
+        /// Break engage.
+        /// </summary>
+        /// <param name="mechanism">Engage mechanism.</param>
+        void BreakEngage(IEngagedMechanism mechanism);
+    }
+
+    /// <summary>
+    /// Mechanism can be engaged to power mechanism.
+    /// </summary>
+    public interface IEngagedMechanism : IMechanism
+    {
+        /// <summary>
+        /// Engage this mechanism to power mechanism.
+        /// </summary>
+        /// <param name="mechanism">Power mechanism.</param>
+        void EngageTo(IEngageMechanism mechanism);
+
+        /// <summary>
+        /// Break engage from power mechanism.
+        /// </summary>
+        void EngageBreak();
+    }
+
+    /// <summary>
+    /// Mechanism with coaxed mechanisms.
+    /// </summary>
+    public interface ICoaxeMechanism : IAngularMechanism
+    {
+        /// <summary>
+        /// Build coaxe for mechanism.
+        /// </summary>
+        /// <param name="mechanism">Coaxed mechanism.</param>
+        void BuildCoaxed(ICoaxedMechanism mechanism);
+
+        /// <summary>
+        /// Break coaxed.
+        /// </summary>
+        /// <param name="mechanism">Coaxed mechanism.</param>
+        void BreakCoaxed(ICoaxedMechanism mechanism);
+    }
+
+    /// <summary>
+    /// Mechanism can be coaxed to power mechanism.
+    /// </summary>
+    public interface ICoaxedMechanism : IAngularMechanism
+    {
+        /// <summary>
+        /// Coaxe this mechanism to power mechanism.
+        /// </summary>
+        /// <param name="mechanism">Power mechanism.</param>
+        void CoaxeTo(ICoaxeMechanism mechanism);
+
+        /// <summary>
+        /// Break coaxe from power mechanism.
+        /// </summary>
+        void CoaxeBreak();
     }
 
     /// <summary>
     /// Mechanism with engage mechanisms.
     /// </summary>
-    public abstract class EngageMechanism : AngularMechanism
+    public abstract class EngageMechanism : Mechanism, IEngageMechanism, IEngagedMechanism
     {
         #region Field and Property
         /// <summary>
         /// Engaged mechanisms.
         /// </summary>
-        public List<Mechanism> engages;
+        [SerializeField]
+        protected List<Mechanism> engages;
+
+        /// <summary>
+        /// Engaged mechanisms.
+        /// </summary>
+        protected List<IEngagedMechanism> iEngages;
 
         /// <summary>
         /// Engage power mechanism.
         /// </summary>
-        protected EngageMechanism engage;
+        protected IEngageMechanism engage;
         #endregion
 
         #region Protected Method
+        /// <summary>
+        /// Initialize engages.
+        /// </summary>
+        protected void InitializeEngages()
+        {
+            foreach (var engage in engages)
+            {
+                if (engage is IEngagedMechanism)
+                {
+                    (engage as IEngagedMechanism).EngageTo(this);
+                }
+            }
+        }
+
         /// <summary>
         /// Drive Engaged mechanisms by linear velocity.
         /// </summary>
         /// <param name="velocity">Linear velocity.</param>
         protected void DriveEngages(float velocity)
         {
-            foreach (var engage in engages)
+            foreach (var engage in iEngages)
             {
                 engage.Drive(velocity);
             }
@@ -102,31 +157,47 @@ namespace Mogoson.Machinery
 
         #region Public Method
         /// <summary>
-        /// Drive mechanism by linear velocity.
+        /// Initialize mechanism.
         /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
+        public override void Initialize()
         {
-            DriveEngages(-velocity);
+            InitializeEngages();
+        }
+
+        /// <summary>
+        /// Build engage for mechanism.
+        /// </summary>
+        /// <param name="mechanism">Engage mechanism.</param>
+        public void BuildEngage(IEngagedMechanism mechanism)
+        {
+            if (!iEngages.Contains(mechanism))
+                iEngages.Add(mechanism);
+        }
+
+        /// <summary>
+        /// Break engage.
+        /// </summary>
+        /// <param name="mechanism">Engage mechanism.</param>
+        public void BreakEngage(IEngagedMechanism mechanism)
+        {
+            if (iEngages.Contains(mechanism))
+                iEngages.Remove(mechanism);
         }
 
         /// <summary>
         /// Engage this mechanism to power mechanism.
         /// </summary>
         /// <param name="mechanism">Power mechanism.</param>
-        public void EngageTo(EngageMechanism mechanism)
+        public void EngageTo(IEngageMechanism mechanism)
         {
             if (mechanism == null || mechanism == engage)
                 return;
             else
             {
-                BreakEngage();
+                EngageBreak();
 
-                if (!mechanism.engages.Contains(this))
-                {
-                    //Engage this mechanism to new power mechanism.
-                    mechanism.engages.Add(this);
-                }
+                //Engage this mechanism to new power mechanism.
+                mechanism.BuildEngage(this);
                 engage = mechanism;
             }
         }
@@ -134,11 +205,11 @@ namespace Mogoson.Machinery
         /// <summary>
         /// Break engage from power mechanism.
         /// </summary>
-        public void BreakEngage()
+        public void EngageBreak()
         {
             if (engage != null)
             {
-                engage.engages.Remove(this);
+                engage.BreakEngage(this);
                 engage = null;
             }
         }
@@ -146,36 +217,120 @@ namespace Mogoson.Machinery
     }
 
     /// <summary>
-    /// Gear with engage mechanisms.
+    /// Mechanism with engage and coaxial mechanisms.
     /// </summary>
-    public abstract class GearMechanism : EngageMechanism
+    public abstract class CoaxeMechanism : EngageMechanism, ICoaxeMechanism, ICoaxedMechanism
     {
         #region Field and Property
         /// <summary>
-        /// Radius of gear.
+        /// Coaxial mechanism.
         /// </summary>
-        public float radius = 0.5f;
+        [SerializeField]
+        protected List<Mechanism> coaxes;
+
+        /// <summary>
+        /// Coaxial mechanism.
+        /// </summary>
+        protected List<ICoaxedMechanism> iCoaxes = new List<ICoaxedMechanism>();
+
+        /// <summary>
+        /// Coaxial power mechanism.
+        /// </summary>
+        protected ICoaxeMechanism coaxe;
+        #endregion
+
+        #region Protected Method
+        /// <summary>
+        /// Initialize coaxes.
+        /// </summary>
+        protected void InitializeCoaxes()
+        {
+            foreach (var coaxe in coaxes)
+            {
+                if (coaxe is ICoaxedMechanism)
+                {
+                    (coaxe as ICoaxedMechanism).CoaxeTo(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Drive coaxial mechanisms by angular velocity.
+        /// </summary>
+        /// <param name="velocity">Angular velocity.</param>
+        protected void DriveCoaxes(float velocity)
+        {
+            foreach (var coaxe in iCoaxes)
+            {
+                coaxe.AngularDrive(velocity);
+            }
+        }
         #endregion
 
         #region Public Method
         /// <summary>
-        /// Drive gear by linear velocity.
+        /// Initialize mechanism.
         /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
+        public override void Initialize()
         {
-            transform.Rotate(Vector3.forward, velocity / radius * Mathf.Rad2Deg * Time.deltaTime, Space.Self);
-            base.Drive(velocity);
+            base.Initialize();
+            InitializeCoaxes();
         }
 
         /// <summary>
-        /// Drive gear by angular velocity.
+        /// Drive Mechanism by angular velocity.
         /// </summary>
         /// <param name="velocity">Angular velocity.</param>
-        public override void AngularDrive(float velocity)
+        public abstract void AngularDrive(float velocity);
+
+        /// <summary>
+        /// Build coaxe for mechanism.
+        /// </summary>
+        /// <param name="mechanism">Coaxed mechanism.</param>
+        public void BuildCoaxed(ICoaxedMechanism mechanism)
         {
-            transform.Rotate(Vector3.forward, velocity * Time.deltaTime, Space.Self);
-            base.Drive(velocity * Mathf.Deg2Rad * radius);
+            if (!iCoaxes.Contains(mechanism))
+                iCoaxes.Add(mechanism);
+        }
+
+        /// <summary>
+        /// Break coaxed.
+        /// </summary>
+        /// <param name="mechanism">Coaxed mechanism.</param>
+        public void BreakCoaxed(ICoaxedMechanism mechanism)
+        {
+            if (iCoaxes.Contains(mechanism))
+                iCoaxes.Remove(mechanism);
+        }
+
+        /// <summary>
+        /// Coaxe this mechanism to power mechanism.
+        /// </summary>
+        /// <param name="mechanism">Power mechanism.</param>
+        public void CoaxeTo(ICoaxeMechanism mechanism)
+        {
+            if (mechanism == null || mechanism == coaxe)
+                return;
+            else
+            {
+                CoaxeBreak();
+
+                //Coaxe this mechanism to new power mechanism.
+                mechanism.BuildCoaxed(this);
+                coaxe = mechanism;
+            }
+        }
+
+        /// <summary>
+        /// Break coaxe from power mechanism.
+        /// </summary>
+        public void CoaxeBreak()
+        {
+            if (coaxe != null)
+            {
+                coaxe.BreakCoaxed(this);
+                coaxe = null;
+            }
         }
         #endregion
     }
