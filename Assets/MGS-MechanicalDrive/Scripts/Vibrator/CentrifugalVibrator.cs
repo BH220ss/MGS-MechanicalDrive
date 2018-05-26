@@ -38,12 +38,6 @@ namespace Mogoson.Machinery
         #endregion
 
         #region Protected Method
-        protected override void Awake()
-        {
-            base.Awake();
-            StartPosition = transform.localPosition;
-        }
-
         /// <summary>
         /// Get local direction from wold direction.
         /// </summary>
@@ -59,6 +53,14 @@ namespace Mogoson.Machinery
         #endregion
 
         #region Public Method
+        /// <summary>
+        /// Initialize vibrator.
+        /// </summary>
+        public override void Initialize()
+        {
+            StartPosition = transform.localPosition;
+        }
+
         /// <summary>
         /// Drive vibrator by angular velocity.
         /// </summary>

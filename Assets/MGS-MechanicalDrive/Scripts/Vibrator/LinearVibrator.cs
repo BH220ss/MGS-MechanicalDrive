@@ -56,15 +56,15 @@ namespace Mogoson.Machinery
         protected int direction = 1;
         #endregion
 
-        #region Protected Method
-        protected override void Awake()
+        #region Public Method
+        /// <summary>
+        /// Initialize vibrator.
+        /// </summary>
+        public override void Initialize()
         {
-            base.Awake();
             StartPosition = transform.localPosition;
         }
-        #endregion
 
-        #region Public Method
         /// <summary>
         /// Drive vibrator by linear velocity.
         /// </summary>

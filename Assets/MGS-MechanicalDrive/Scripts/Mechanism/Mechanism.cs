@@ -18,7 +18,6 @@
  *************************************************************************/
 
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Mogoson.Machinery
 {
@@ -42,14 +41,14 @@ namespace Mogoson.Machinery
         /// <summary>
         /// Build engage for mechanism.
         /// </summary>
-        /// <param name="mechanism">Engage mechanism.</param>
-        void BuildEngage(IEngagedMechanism mechanism);
+        /// <param name="engage">Engage mechanism.</param>
+        void BuildEngage(IEngagedMechanism engage);
 
         /// <summary>
         /// Break engage.
         /// </summary>
-        /// <param name="mechanism">Engage mechanism.</param>
-        void BreakEngage(IEngagedMechanism mechanism);
+        /// <param name="engage">Engage mechanism.</param>
+        void BreakEngage(IEngagedMechanism engage);
     }
 
     /// <summary>
@@ -60,8 +59,8 @@ namespace Mogoson.Machinery
         /// <summary>
         /// Engage this mechanism to power mechanism.
         /// </summary>
-        /// <param name="mechanism">Power mechanism.</param>
-        void EngageTo(IEngageMechanism mechanism);
+        /// <param name="engage">Power mechanism.</param>
+        void EngageTo(IEngageMechanism engage);
 
         /// <summary>
         /// Break engage from power mechanism.
@@ -77,14 +76,14 @@ namespace Mogoson.Machinery
         /// <summary>
         /// Build coaxe for mechanism.
         /// </summary>
-        /// <param name="mechanism">Coaxed mechanism.</param>
-        void BuildCoaxed(ICoaxedMechanism mechanism);
+        /// <param name="coaxe">Coaxe mechanism.</param>
+        void BuildCoaxed(ICoaxedMechanism coaxe);
 
         /// <summary>
         /// Break coaxed.
         /// </summary>
-        /// <param name="mechanism">Coaxed mechanism.</param>
-        void BreakCoaxed(ICoaxedMechanism mechanism);
+        /// <param name="coaxe">Coaxe mechanism.</param>
+        void BreakCoaxed(ICoaxedMechanism coaxe);
     }
 
     /// <summary>
@@ -95,11 +94,11 @@ namespace Mogoson.Machinery
         /// <summary>
         /// Coaxe this mechanism to power mechanism.
         /// </summary>
-        /// <param name="mechanism">Power mechanism.</param>
-        void CoaxeTo(ICoaxeMechanism mechanism);
+        /// <param name="coaxe">Power mechanism.</param>
+        void CoaxeTo(ICoaxeMechanism coaxe);
 
         /// <summary>
-        /// Break coaxe from power mechanism.
+        /// Break coaxed from power mechanism.
         /// </summary>
         void CoaxeBreak();
     }
@@ -113,13 +112,7 @@ namespace Mogoson.Machinery
         /// <summary>
         /// Engaged mechanisms.
         /// </summary>
-        [SerializeField]
-        protected List<Mechanism> engages;
-
-        /// <summary>
-        /// Engaged mechanisms.
-        /// </summary>
-        protected List<IEngagedMechanism> iEngages;
+        public List<Mechanism> engages;
 
         /// <summary>
         /// Engage power mechanism.
@@ -148,7 +141,7 @@ namespace Mogoson.Machinery
         /// <param name="velocity">Linear velocity.</param>
         protected void DriveEngages(float velocity)
         {
-            foreach (var engage in iEngages)
+            foreach (var engage in engages)
             {
                 engage.Drive(velocity);
             }
@@ -167,38 +160,40 @@ namespace Mogoson.Machinery
         /// <summary>
         /// Build engage for mechanism.
         /// </summary>
-        /// <param name="mechanism">Engage mechanism.</param>
-        public void BuildEngage(IEngagedMechanism mechanism)
+        /// <param name="engage">Engage mechanism.</param>
+        public void BuildEngage(IEngagedMechanism engage)
         {
-            if (!iEngages.Contains(mechanism))
-                iEngages.Add(mechanism);
+            var Mechanism = engage as Mechanism;
+            if (Mechanism && !engages.Contains(Mechanism))
+                engages.Add(Mechanism);
         }
 
         /// <summary>
         /// Break engage.
         /// </summary>
-        /// <param name="mechanism">Engage mechanism.</param>
-        public void BreakEngage(IEngagedMechanism mechanism)
+        /// <param name="engage">Engage mechanism.</param>
+        public void BreakEngage(IEngagedMechanism engage)
         {
-            if (iEngages.Contains(mechanism))
-                iEngages.Remove(mechanism);
+            var mechanism = engage as Mechanism;
+            if (engages.Contains(mechanism))
+                engages.Remove(mechanism);
         }
 
         /// <summary>
         /// Engage this mechanism to power mechanism.
         /// </summary>
-        /// <param name="mechanism">Power mechanism.</param>
-        public void EngageTo(IEngageMechanism mechanism)
+        /// <param name="engage">Power mechanism.</param>
+        public void EngageTo(IEngageMechanism engage)
         {
-            if (mechanism == null || mechanism == engage)
+            if (engage == null || engage == this.engage)
                 return;
             else
             {
                 EngageBreak();
 
                 //Engage this mechanism to new power mechanism.
-                mechanism.BuildEngage(this);
-                engage = mechanism;
+                engage.BuildEngage(this);
+                this.engage = engage;
             }
         }
 
@@ -225,13 +220,7 @@ namespace Mogoson.Machinery
         /// <summary>
         /// Coaxial mechanism.
         /// </summary>
-        [SerializeField]
-        protected List<Mechanism> coaxes;
-
-        /// <summary>
-        /// Coaxial mechanism.
-        /// </summary>
-        protected List<ICoaxedMechanism> iCoaxes = new List<ICoaxedMechanism>();
+        public List<Mechanism> coaxes;
 
         /// <summary>
         /// Coaxial power mechanism.
@@ -260,9 +249,12 @@ namespace Mogoson.Machinery
         /// <param name="velocity">Angular velocity.</param>
         protected void DriveCoaxes(float velocity)
         {
-            foreach (var coaxe in iCoaxes)
+            foreach (var coaxe in coaxes)
             {
-                coaxe.AngularDrive(velocity);
+                if (coaxe is IAngularMechanism)
+                    (coaxe as IAngularMechanism).AngularDrive(velocity);
+                else
+                    coaxe.Drive(velocity);
             }
         }
         #endregion
@@ -286,43 +278,45 @@ namespace Mogoson.Machinery
         /// <summary>
         /// Build coaxe for mechanism.
         /// </summary>
-        /// <param name="mechanism">Coaxed mechanism.</param>
-        public void BuildCoaxed(ICoaxedMechanism mechanism)
+        /// <param name="coaxe">Coaxe mechanism.</param>
+        public void BuildCoaxed(ICoaxedMechanism coaxe)
         {
-            if (!iCoaxes.Contains(mechanism))
-                iCoaxes.Add(mechanism);
+            var mechanism = coaxe as Mechanism;
+            if (mechanism && !coaxes.Contains(mechanism))
+                coaxes.Add(mechanism);
         }
 
         /// <summary>
         /// Break coaxed.
         /// </summary>
-        /// <param name="mechanism">Coaxed mechanism.</param>
-        public void BreakCoaxed(ICoaxedMechanism mechanism)
+        /// <param name="coaxe">Coaxe mechanism.</param>
+        public void BreakCoaxed(ICoaxedMechanism coaxe)
         {
-            if (iCoaxes.Contains(mechanism))
-                iCoaxes.Remove(mechanism);
+            var mechanism = coaxe as Mechanism;
+            if (coaxes.Contains(mechanism))
+                coaxes.Remove(mechanism);
         }
 
         /// <summary>
         /// Coaxe this mechanism to power mechanism.
         /// </summary>
-        /// <param name="mechanism">Power mechanism.</param>
-        public void CoaxeTo(ICoaxeMechanism mechanism)
+        /// <param name="coaxe">Power mechanism.</param>
+        public void CoaxeTo(ICoaxeMechanism coaxe)
         {
-            if (mechanism == null || mechanism == coaxe)
+            if (coaxe == null || coaxe == this.coaxe)
                 return;
             else
             {
                 CoaxeBreak();
 
                 //Coaxe this mechanism to new power mechanism.
-                mechanism.BuildCoaxed(this);
-                coaxe = mechanism;
+                coaxe.BuildCoaxed(this);
+                this.coaxe = coaxe;
             }
         }
 
         /// <summary>
-        /// Break coaxe from power mechanism.
+        /// Break coaxed from power mechanism.
         /// </summary>
         public void CoaxeBreak()
         {

@@ -50,9 +50,9 @@ namespace Mogoson.Machinery
             foreach (var unit in mechanismUnits)
             {
                 if (unit.mechanism is IAngularMechanism)
-                {
                     (unit.mechanism as IAngularMechanism).AngularDrive(velocity * unit.coefficient);
-                }
+                else
+                    unit.mechanism.Drive(velocity * unit.coefficient);
             }
         }
         #endregion
