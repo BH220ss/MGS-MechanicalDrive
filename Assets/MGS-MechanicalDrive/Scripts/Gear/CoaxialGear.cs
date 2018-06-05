@@ -22,23 +22,22 @@ namespace Mogoson.Machinery
     {
         #region Public Method
         /// <summary>
-        /// Drive gear by linear velocity.
+        /// Drive gear by velocity.
         /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
+        /// <param name="velocity">Velocity of drive.</param>
+        /// <param name="type">Type of drive.</param>
+        public override void Drive(float velocity, DriveType type)
         {
-            DriveCoaxes(velocity / radius * Mathf.Rad2Deg);
-            DriveEngages(-velocity);
-        }
+            var angular = velocity;
+            var linear = velocity;
 
-        /// <summary>
-        /// Drive gear by angular velocity.
-        /// </summary>
-        /// <param name="velocity">Angular velocity.</param>
-        public override void AngularDrive(float velocity)
-        {
-            DriveCoaxes(velocity);
-            DriveEngages(-velocity * Mathf.Deg2Rad * radius);
+            if (type == DriveType.Linear)
+                angular = velocity / radius * Mathf.Rad2Deg;
+            else
+                linear = velocity * Mathf.Deg2Rad * radius;
+
+            DriveCoaxes(angular);
+            DriveEngages(-linear);
         }
         #endregion
     }

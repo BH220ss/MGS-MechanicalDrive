@@ -19,52 +19,43 @@ namespace Mogoson.Machinery
     /// Worm shaft.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/WormShaft")]
-    public class WormShaft : Gear
+    public class WormShaft : Axle
     {
         #region Field and Property
-        /// <summary>
-        /// Count of worm threads.
-        /// </summary>
-        public int threads = 1;
-
         /// <summary>
         /// Gears drived by this worm.
         /// </summary>
         public List<WormGear> gears;
+
+        /// <summary>
+        /// Count of worm threads.
+        /// </summary>
+        public int threads = 1;
         #endregion
 
         #region Protected Method
         /// <summary>
         /// Drive worm gears by angular velocity.
         /// </summary>
-        /// <param name="velocity">Angular velocity.</param>
+        /// <param name="velocity">Angular velocity of drive.</param>
         protected void DriveGears(float velocity)
         {
             foreach (var gear in gears)
             {
-                gear.AngularDrive(velocity * threads / gear.teeth);
+                gear.Drive(velocity * threads / gear.teeth, DriveType.Angular);
             }
         }
         #endregion
 
         #region Public Method
         /// <summary>
-        /// Drive worm shaft by linear velocity.
-        /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
-        {
-            base.Drive(velocity);
-            DriveGears(velocity / radius * Mathf.Rad2Deg);
-        }
-
-        /// <summary>
         /// Drive worm shaft by angular velocity.
         /// </summary>
-        /// <param name="velocity">Angular velocity.</param>
-        public override void AngularDrive(float velocity)
+        /// <param name="velocity">Angular velocity of drive.</param>
+        /// <param name="type">Invalid parameter (WormShaft can only drived by angular velocity).</param>
+        public override void Drive(float velocity, DriveType type = DriveType.Ignore)
         {
-            base.AngularDrive(velocity);
+            base.Drive(velocity);
             DriveGears(velocity);
         }
         #endregion

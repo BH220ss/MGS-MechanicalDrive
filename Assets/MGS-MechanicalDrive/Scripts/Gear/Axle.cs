@@ -1,81 +1,106 @@
 ﻿/*************************************************************************
  *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
- *  File         :  CentrifugalVibrator.cs
- *  Description  :  Define CentrifugalVibrator component.
+ *  File         :  Axle.cs
+ *  Description  :  Define Axle component.
  *------------------------------------------------------------------------
  *  Author       :  Mogoson
  *  Version      :  0.1.0
- *  Date         :  6/23/2017
+ *  Date         :  6/5/2018
  *  Description  :  Initial development version.
  *************************************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mogoson.Machinery
 {
     /// <summary>
-    /// Centrifugal vibrator.
+    /// Axle rotate around axis Z.
     /// </summary>
-    [AddComponentMenu("Mogoson/Machinery/CentrifugalVibrator")]
-    public class CentrifugalVibrator : Mechanism, ICoaxedMechanism
+    [AddComponentMenu("Mogoson/Machinery/Axle")]
+    public class Axle : Mechanism, ICoaxeMechanism, ICoaxedMechanism
     {
         #region Field and Property
         /// <summary>
-        /// Amplitude radius of vibrator.
+        /// Coaxial mechanism.
         /// </summary>
-        public float amplitudeRadius = 0.1f;
-
-        /// <summary>
-        /// Start loacal position.
-        /// </summary>
-        public Vector3 StartPosition { protected set; get; }
+        public List<Mechanism> coaxes;
 
         /// <summary>
         /// Coaxial power mechanism.
         /// </summary>
         protected ICoaxeMechanism coaxe;
-
-        /// <summary>
-        /// Current rotate angle.
-        /// </summary>
-        protected float currentAngle;
         #endregion
 
         #region Protected Method
         /// <summary>
-        /// Get local direction from wold direction.
+        /// Initialize coaxes.
         /// </summary>
-        /// <param name="direction">Wold direction.</param>
-        /// <returns>Local direction.</returns>
-        protected Vector3 GetLocalDirection(Vector3 direction)
+        protected void InitializeCoaxes()
         {
-            if (transform.parent)
-                return transform.parent.InverseTransformVector(direction);
-            else
-                return direction;
+            foreach (var coaxe in coaxes)
+            {
+                if (coaxe is ICoaxedMechanism)
+                {
+                    (coaxe as ICoaxedMechanism).CoaxeTo(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Drive coaxial mechanisms by angular velocity.
+        /// </summary>
+        /// <param name="velocity">Angular velocity of drive.</param>
+        protected void DriveCoaxes(float velocity)
+        {
+            foreach (var coaxe in coaxes)
+            {
+                coaxe.Drive(velocity, DriveType.Angular);
+            }
         }
         #endregion
 
         #region Public Method
         /// <summary>
-        /// Initialize vibrator.
+        /// Initialize axle.
         /// </summary>
         public override void Initialize()
         {
-            StartPosition = transform.localPosition;
+            InitializeCoaxes();
         }
 
         /// <summary>
-        /// Drive vibrator by angular velocity.
+        /// Drive axle by angular velocity.
         /// </summary>
         /// <param name="velocity">Angular velocity of drive.</param>
-        /// <param name="type">Invalid parameter (CentrifugalVibrator can only drived by angular velocity).</param>
+        /// <param name="type">Invalid parameter (Axle can only drived by angular velocity).</param>
         public override void Drive(float velocity, DriveType type = DriveType.Ignore)
         {
-            currentAngle += velocity * Time.deltaTime;
-            var direction = Quaternion.AngleAxis(currentAngle, transform.forward) * transform.right;
-            transform.localPosition = StartPosition + GetLocalDirection(direction) * amplitudeRadius;
+            transform.Rotate(Vector3.forward, velocity * Time.deltaTime, Space.Self);
+            DriveCoaxes(velocity);
+        }
+
+        /// <summary>
+        /// Build coaxe for mechanism.
+        /// </summary>
+        /// <param name="coaxe">Coaxe mechanism.</param>
+        public void BuildCoaxed(ICoaxedMechanism coaxe)
+        {
+            var mechanism = coaxe as Mechanism;
+            if (mechanism && !coaxes.Contains(mechanism))
+                coaxes.Add(mechanism);
+        }
+
+        /// <summary>
+        /// Break coaxed.
+        /// </summary>
+        /// <param name="coaxe">Coaxe mechanism.</param>
+        public void BreakCoaxed(ICoaxedMechanism coaxe)
+        {
+            var mechanism = coaxe as Mechanism;
+            if (coaxes.Contains(mechanism))
+                coaxes.Remove(mechanism);
         }
 
         /// <summary>

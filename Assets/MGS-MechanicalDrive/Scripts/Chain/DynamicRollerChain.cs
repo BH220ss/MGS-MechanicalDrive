@@ -22,7 +22,7 @@ namespace Mogoson.Machinery
         /// Drive chain.
         /// </summary>
         /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
+        public override void Drive(float velocity, DriveType type)
         {
             CreateCurve();
 
@@ -30,7 +30,7 @@ namespace Mogoson.Machinery
             if (Mathf.Abs(timer) >= maxTime)
                 timer -= maxTime;
 
-            base.Drive(velocity);
+            base.Drive(velocity, type);
         }
         #endregion
     }

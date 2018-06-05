@@ -18,7 +18,7 @@ namespace Mogoson.Machinery
     /// Linear vibrator.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/LinearVibrator")]
-    public class LinearVibrator : Mechanism
+    public class LinearVibrator : Mechanism, IEngagedMechanism
     {
         #region Field and Property
         /// <summary>
@@ -30,6 +30,11 @@ namespace Mogoson.Machinery
         /// Start loacal position.
         /// </summary>
         public Vector3 StartPosition { protected set; get; }
+
+        /// <summary>
+        /// Engage power mechanism.
+        /// </summary>
+        protected IEngageMechanism engage;
 
         /// <summary>
         /// Vibrate local axis.
@@ -68,8 +73,9 @@ namespace Mogoson.Machinery
         /// <summary>
         /// Drive vibrator by linear velocity.
         /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
+        /// <param name="velocity">Linear velocity of drive.</param>
+        /// <param name="type">Invalid parameter (LinearVibrator can only drived by linear velocity).</param>
+        public override void Drive(float velocity, DriveType type = DriveType.Ignore)
         {
             currentOffset += velocity * Mathf.Deg2Rad * direction * Time.deltaTime;
             if (currentOffset < -amplitudeRadius || currentOffset > amplitudeRadius)
@@ -78,6 +84,36 @@ namespace Mogoson.Machinery
                 currentOffset = Mathf.Clamp(currentOffset, -amplitudeRadius, amplitudeRadius);
             }
             transform.localPosition = StartPosition + LocalAxis * currentOffset;
+        }
+
+        /// <summary>
+        /// Engage this mechanism to power mechanism.
+        /// </summary>
+        /// <param name="engage">Power mechanism.</param>
+        public void EngageTo(IEngageMechanism engage)
+        {
+            if (engage == null || engage == this.engage)
+                return;
+            else
+            {
+                EngageBreak();
+
+                //Engage this mechanism to new power mechanism.
+                engage.BuildEngage(this);
+                this.engage = engage;
+            }
+        }
+
+        /// <summary>
+        /// Break engage from power mechanism.
+        /// </summary>
+        public void EngageBreak()
+        {
+            if (engage != null)
+            {
+                engage.BreakEngage(this);
+                engage = null;
+            }
         }
         #endregion
     }

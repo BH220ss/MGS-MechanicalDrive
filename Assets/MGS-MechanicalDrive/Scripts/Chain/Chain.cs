@@ -99,7 +99,7 @@ namespace Mogoson.Machinery
         /// Drive chain.
         /// </summary>
         /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
+        public override void Drive(float velocity, DriveType type)
         {
             timer += velocity * Mathf.Deg2Rad * Time.deltaTime;
             foreach (var node in nodes)

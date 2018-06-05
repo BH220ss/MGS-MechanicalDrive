@@ -10,6 +10,7 @@
  *  Description  :  Initial development version.
  *************************************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mogoson.Machinery
@@ -18,37 +19,133 @@ namespace Mogoson.Machinery
     /// Gear rotate around axis Z.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/Gear")]
-    public class Gear : CoaxeMechanism
+    public class Gear : Axle, IEngageMechanism, IEngagedMechanism
     {
         #region Field and Property
+        /// <summary>
+        /// Engaged mechanisms.
+        /// </summary>
+        public List<Mechanism> engages;
+
         /// <summary>
         /// Radius of gear.
         /// </summary>
         public float radius = 0.5f;
+
+        /// <summary>
+        /// Engage power mechanism.
+        /// </summary>
+        protected IEngageMechanism engage;
+        #endregion
+
+        #region Protected Method
+        /// <summary>
+        /// Initialize engages.
+        /// </summary>
+        protected void InitializeEngages()
+        {
+            foreach (var engage in engages)
+            {
+                if (engage is IEngagedMechanism)
+                {
+                    (engage as IEngagedMechanism).EngageTo(this);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Drive engage mechanisms by linear velocity.
+        /// </summary>
+        /// <param name="velocity">Linear velocity of drive.</param>
+        protected void DriveEngages(float velocity)
+        {
+            foreach (var engage in engages)
+            {
+                engage.Drive(velocity, DriveType.Linear);
+            }
+        }
         #endregion
 
         #region Public Method
         /// <summary>
-        /// Drive gear by linear velocity.
+        /// Initialize gear.
         /// </summary>
-        /// <param name="velocity">Linear velocity.</param>
-        public override void Drive(float velocity)
+        public override void Initialize()
         {
-            var angular = velocity / radius * Mathf.Rad2Deg;
-            transform.Rotate(Vector3.forward, angular * Time.deltaTime, Space.Self);
-            DriveCoaxes(angular);
-            DriveEngages(-velocity);
+            InitializeCoaxes();
+            InitializeEngages();
         }
 
         /// <summary>
-        /// Drive gear by angular velocity.
+        /// Drive gear by velocity.
         /// </summary>
-        /// <param name="velocity">Angular velocity.</param>
-        public override void AngularDrive(float velocity)
+        /// <param name="velocity">Velocity of drive.</param>
+        /// <param name="type">Type of drive.</param>
+        public override void Drive(float velocity, DriveType type)
         {
-            transform.Rotate(Vector3.forward, velocity * Time.deltaTime, Space.Self);
-            DriveCoaxes(velocity);
-            DriveEngages(-velocity * Mathf.Deg2Rad * radius);
+            var angular = velocity;
+            var linear = velocity;
+
+            if (type == DriveType.Linear)
+                angular = velocity / radius * Mathf.Rad2Deg;
+            else
+                linear = velocity * Mathf.Deg2Rad * radius;
+
+            transform.Rotate(Vector3.forward, angular * Time.deltaTime, Space.Self);
+            DriveCoaxes(angular);
+            DriveEngages(-linear);
+        }
+
+        /// <summary>
+        /// Build engage for mechanism.
+        /// </summary>
+        /// <param name="engage">Engage mechanism.</param>
+        public void BuildEngage(IEngagedMechanism engage)
+        {
+            var Mechanism = engage as Mechanism;
+            if (Mechanism && !engages.Contains(Mechanism))
+                engages.Add(Mechanism);
+        }
+
+        /// <summary>
+        /// Break engage.
+        /// </summary>
+        /// <param name="engage">Engage mechanism.</param>
+        public void BreakEngage(IEngagedMechanism engage)
+        {
+            var mechanism = engage as Mechanism;
+            if (engages.Contains(mechanism))
+                engages.Remove(mechanism);
+        }
+
+        /// <summary>
+        /// Engage this mechanism to power mechanism.
+        /// </summary>
+        /// <param name="engage">Power mechanism.</param>
+        public void EngageTo(IEngageMechanism engage)
+        {
+            if (engage == null || engage == this.engage)
+                return;
+            else
+            {
+                EngageBreak();
+
+                //Engage this mechanism to new power mechanism.
+                engage.BuildEngage(this);
+                this.engage = engage;
+            }
+        }
+
+        /// <summary>
+        /// Break engage from power mechanism.
+        /// </summary>
+        public void EngageBreak()
+        {
+            if (engage != null)
+            {
+                engage.BreakEngage(this);
+                engage = null;
+            }
         }
         #endregion
     }

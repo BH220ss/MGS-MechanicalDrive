@@ -36,9 +36,9 @@ namespace Mogoson.Machinery
         public float damper = 0.5f;
 
         /// <summary>
-        /// Gear drive by this engine.
+        /// Mechanism drive by this engine.
         /// </summary>
-        public Gear gear;
+        public Mechanism mechanism;
         #endregion
 
         #region Protected Method
@@ -52,7 +52,7 @@ namespace Mogoson.Machinery
             if (rpm == 0)
                 enabled = false;
             else
-                gear.AngularDrive(rpm * 6);
+                mechanism.Drive(rpm * 6, DriveType.Angular);
         }
         #endregion
 
