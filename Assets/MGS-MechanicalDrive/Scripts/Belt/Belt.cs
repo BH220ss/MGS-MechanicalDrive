@@ -29,9 +29,9 @@ namespace Mogoson.Machinery
         public List<Mechanism> engages;
 
         /// <summary>
-        /// Length of belt.
+        /// Coefficient of velocity.
         /// </summary>
-        public float length = 1;
+        public float coefficient = 1;
 
         /// <summary>
         /// Engage power mechanism.
@@ -89,8 +89,8 @@ namespace Mogoson.Machinery
         /// <param name="type">Invalid parameter (Belt can only drived by linear velocity).</param>
         public override void Drive(float velocity, DriveType type = DriveType.Ignore)
         {
-            beltRenderer.material.mainTextureOffset += new Vector2(velocity / length * Time.deltaTime, 0);
-            DriveEngages(velocity);
+            beltRenderer.material.mainTextureOffset += new Vector2(velocity * coefficient * Time.deltaTime, 0);
+            DriveEngages(-velocity);
         }
 
         /// <summary>

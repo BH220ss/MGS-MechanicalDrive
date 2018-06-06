@@ -1,12 +1,12 @@
 ﻿/*************************************************************************
  *  Copyright © 2017-2018 Mogoson. All rights reserved.
  *------------------------------------------------------------------------
- *  File         :  EngineUI.cs
- *  Description  :  Draw scene UI to control Engine.
+ *  File         :  DifferentialUI.cs
+ *  Description  :  Draw scene UI to control differential.
  *------------------------------------------------------------------------
  *  Author       :  Mogoson
  *  Version      :  0.1.0
- *  Date         :  6/24/2017
+ *  Date         :  6/6/2018
  *  Description  :  Initial development version.
  *************************************************************************/
 
@@ -14,20 +14,22 @@ using UnityEngine;
 
 namespace Mogoson.Machinery
 {
-    [RequireComponent(typeof(Engine))]
-    public class EngineUI : MonoBehaviour
+    [RequireComponent(typeof(Differential))]
+    public class DifferentialUI : MonoBehaviour
     {
         #region Field and Property
         public float top = 10;
         public float left = 10;
+        public string info = "Help Info.";
 
-        private Engine engine;
+        private Differential differential;
+        private float coefficient = 0;
         #endregion
 
         #region Private Method
         private void Start()
         {
-            engine = GetComponent<Engine>();
+            differential = GetComponent<Differential>();
         }
 
         private void OnGUI()
@@ -35,10 +37,17 @@ namespace Mogoson.Machinery
             GUILayout.Space(top);
             GUILayout.BeginHorizontal();
             GUILayout.Space(left);
-            if (GUILayout.Button("Turn On Engine"))
-                engine.TurnOn();
-            if (GUILayout.Button("Turn Off Engine"))
-                engine.TurnOff();
+
+            GUILayout.BeginVertical();
+            GUILayout.Label(info);
+            var sliderValue = GUILayout.HorizontalSlider(coefficient, -2, 2, GUILayout.Width(240));
+            if (coefficient != sliderValue)
+            {
+                coefficient = sliderValue;
+                differential.Coefficient = coefficient;
+            }
+            GUILayout.EndVertical();
+
             GUILayout.EndHorizontal();
         }
         #endregion

@@ -83,8 +83,8 @@ namespace Mogoson.Machinery
             leftGear.Drive(velocity * coefficient, type);
             rightGear.Drive(velocity * coefficient, type);
 
-            leftAxle.Drive(velocity * leftCoefficient, type);
-            rightAxle.Drive(-velocity * rightCoefficient, type);
+            leftAxle.Drive(-velocity * leftCoefficient, type);
+            rightAxle.Drive(velocity * rightCoefficient, type);
         }
         #endregion
     }
