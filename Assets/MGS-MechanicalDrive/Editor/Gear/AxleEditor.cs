@@ -10,6 +10,7 @@
  *  Description  :  Initial development version.
  *************************************************************************/
 
+using Mogoson.UEditor;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace Mogoson.Machinery
 {
     [CustomEditor(typeof(Axle), true)]
     [CanEditMultipleObjects]
-    public class AxleEditor : BaseMEditor
+    public class AxleEditor : GenericEditor
     {
         #region Field and Property
         protected Axle Target { get { return target as Axle; } }
@@ -27,9 +28,9 @@ namespace Mogoson.Machinery
         protected virtual void OnSceneGUI()
         {
             Handles.color = Blue;
-            DrawSphereCap(Target.transform.position, Quaternion.identity, NodeSize);
-            DrawCircleCap(Target.transform.position, Target.transform.rotation, NodeSize + 0.025f);
-            DrawSphereArrow(Target.transform.position, Target.transform.forward, ArrowLength, NodeSize, Blue, "Axis");
+            DrawAdaptiveSphereCap(Target.transform.position, Quaternion.identity, NodeSize);
+            DrawAdaptiveCircleCap(Target.transform.position, Target.transform.rotation, NodeSize * 2);
+            DrawAdaptiveSphereArrow(Target.transform.position, Target.transform.forward, ArrowLength, NodeSize, "Axis");
         }
         #endregion
     }

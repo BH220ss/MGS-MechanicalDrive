@@ -10,6 +10,7 @@
  *  Description  :  Initial development version.
  *************************************************************************/
 
+using Mogoson.UEditor;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace Mogoson.Machinery
 {
     [CustomEditor(typeof(CentrifugalVibrator), true)]
     [CanEditMultipleObjects]
-    public class CentrifugalVibratorEditor : BaseMEditor
+    public class CentrifugalVibratorEditor : GenericEditor
     {
         #region Field and Property
         protected CentrifugalVibrator Target { get { return target as CentrifugalVibrator; } }
@@ -43,12 +44,22 @@ namespace Mogoson.Machinery
         protected virtual void OnSceneGUI()
         {
             Handles.color = Blue;
-            DrawSphereCap(StartPosition, Quaternion.identity, NodeSize);
-            DrawSphereCap(Target.transform.position, Quaternion.identity, NodeSize);
+            DrawAdaptiveSphereCap(StartPosition, Quaternion.identity, NodeSize);
+            DrawAdaptiveSphereCap(Target.transform.position, Quaternion.identity, NodeSize);
             DrawCircleCap(StartPosition, Target.transform.rotation, Target.amplitudeRadius);
 
-            DrawSphereArrow(StartPosition, Target.transform.position, NodeSize, Blue, string.Empty);
-            DrawSphereArrow(StartPosition, Target.transform.forward, ArrowLength, NodeSize, Blue, "Axis");
+            DrawSphereArrow(StartPosition, Target.transform.position, NodeSize);
+            DrawAdaptiveSphereArrow(StartPosition, Target.transform.forward, ArrowLength, NodeSize, "Axis");
+        }
+        #endregion
+
+        #region Public Method
+        public override void OnInspectorGUI()
+        {
+            EditorGUI.BeginChangeCheck();
+            DrawDefaultInspector();
+            if (EditorGUI.EndChangeCheck())
+                Target.amplitudeRadius = Mathf.Max(Mathf.Epsilon, Target.amplitudeRadius);
         }
         #endregion
     }

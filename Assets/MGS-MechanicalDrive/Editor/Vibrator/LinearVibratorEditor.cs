@@ -10,6 +10,7 @@
  *  Description  :  Initial development version.
  *************************************************************************/
 
+using Mogoson.UEditor;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ namespace Mogoson.Machinery
 {
     [CustomEditor(typeof(LinearVibrator), true)]
     [CanEditMultipleObjects]
-    public class LinearVibratorEditor : BaseMEditor
+    public class LinearVibratorEditor : GenericEditor
     {
         #region Field and Property
         protected LinearVibrator Target { get { return target as LinearVibrator; } }
@@ -43,12 +44,21 @@ namespace Mogoson.Machinery
         protected virtual void OnSceneGUI()
         {
             Handles.color = Blue;
-            DrawSphereCap(StartPosition, Quaternion.identity, NodeSize);
-            DrawSphereCap(Target.transform.position, Quaternion.identity, NodeSize);
+            DrawAdaptiveSphereCap(StartPosition, Quaternion.identity, NodeSize);
+            DrawAdaptiveSphereCap(Target.transform.position, Quaternion.identity, NodeSize);
 
-            DrawSphereArrow(StartPosition, Target.transform.forward, ArrowLength, NodeSize, Blue, "Axis");
-            DrawSphereArrow(StartPosition, Target.transform.forward, -Target.amplitudeRadius, NodeSize, Blue, string.Empty);
-            DrawSphereArrow(StartPosition, Target.transform.forward, Target.amplitudeRadius, NodeSize, Blue, string.Empty);
+            DrawSphereArrow(StartPosition, Target.transform.forward, -Target.amplitudeRadius, NodeSize);
+            DrawSphereArrow(StartPosition, Target.transform.forward, Target.amplitudeRadius, NodeSize);
+        }
+        #endregion
+
+        #region Public Method
+        public override void OnInspectorGUI()
+        {
+            EditorGUI.BeginChangeCheck();
+            DrawDefaultInspector();
+            if (EditorGUI.EndChangeCheck())
+                Target.amplitudeRadius = Mathf.Max(Mathf.Epsilon, Target.amplitudeRadius);
         }
         #endregion
     }
