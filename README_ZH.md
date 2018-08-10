@@ -35,33 +35,33 @@
 - “MGS-MechanicalDrive/Scenes”目录下存有上述机械传动绑定的演示案例，供读者参考。
 
 ## 预览
-- MeshGears
+- MeshGears_E
 
-![MeshGears](./Attachments/README_Image/MeshGears.gif)
+![MeshGears_E](./Attachments/README_Image/MeshGears_E.gif)
 
-- WormGear
+- MeshGears_C
 
-![WormGear](./Attachments/README_Image/WormGear.gif)
+![MeshGears_C](./Attachments/README_Image/MeshGears_C.gif)
 
 - Belt
 
 ![Belt](./Attachments/README_Image/Belt.gif)
 
+- WormGear
+
+![WormGear](./Attachments/README_Image/WormGear.gif)
+
 - Vibrosieve
 
 ![Vibrosieve](./Attachments/README_Image/Vibrosieve.gif)
 
-- DynamicChainSys
+- Differential
 
-![DynamicChainSys](./Attachments/README_Image/DynamicChainSys.gif)
+![Differential](./Attachments/README_Image/Differential.gif)
 
-- DynamicRollerChainSys
+- Transmission
 
-![DynamicRollerChainSys](./Attachments/README_Image/DynamicRollerChainSys.gif)
-
-- NodeEditor
-
-![NodeEditor](./Attachments/README_Image/NodeEditor.gif)
+![Transmission](./Attachments/README_Image/Transmission.gif)
 
 ## 联系
 - 如果你有任何问题或者建议，欢迎通过mogoson@outlook.com联系我。
