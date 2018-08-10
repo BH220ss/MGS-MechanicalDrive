@@ -15,7 +15,7 @@ using UnityEngine;
 namespace Mogoson.Machinery
 {
     /// <summary>
-    /// coaxial gear with the same axis as another gear.
+    /// Coaxial gear with the same axis as another gear.
     /// </summary>
     [AddComponentMenu("Mogoson/Machinery/CoaxialGear")]
     public class CoaxialGear : Gear

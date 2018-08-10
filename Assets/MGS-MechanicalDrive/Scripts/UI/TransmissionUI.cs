@@ -23,6 +23,7 @@ namespace Mogoson.Machinery
         public Vector3 adsorb;
     }
 
+    [AddComponentMenu("Mogoson/Machinery/TransmissionUI")]
     public class TransmissionUI : MonoBehaviour
     {
         #region Field and Property

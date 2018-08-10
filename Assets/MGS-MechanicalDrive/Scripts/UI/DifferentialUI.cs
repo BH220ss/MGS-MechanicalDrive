@@ -14,6 +14,7 @@ using UnityEngine;
 
 namespace Mogoson.Machinery
 {
+    [AddComponentMenu("Mogoson/Machinery/DifferentialUI")]
     [RequireComponent(typeof(Differential))]
     public class DifferentialUI : MonoBehaviour
     {

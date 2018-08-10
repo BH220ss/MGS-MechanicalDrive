@@ -1,36 +1,35 @@
 ﻿==========================================================================
   Copyright © 2017-2018 Mogoson. All rights reserved.
   Name: MGS-Machinery
-  Author: Mogoson   Version: 0.1.0   Date: 11/14/2017
+  Author: Mogoson   Version: 0.1.0   Date: 8/10/2018
 ==========================================================================
   [Summary]
     Unity plugin for binding mechanical drive in scene.
 --------------------------------------------------------------------------
   [Demand]
-    Binding Mesh Gear.
-    Binding proportional velocity mechanism.
+    Binding mesh Gear.
     Binding worm gear.
     Binding belt flywheel.
-    Binding chain gear.
+    Binding vibrator.
+    Binding differential.
+    Binding transmission.
 --------------------------------------------------------------------------
   [Environment]
     Unity 5.0 or above.
     .Net Framework 3.0 or above.
 --------------------------------------------------------------------------
   [Achieve]
-    Gear : Rotate around Z axis.
+    Gear : Gear rotate around axis Z.
+
+    Axle : Axle rotate around axis Z.
+
+    CoaxialGear : Coaxial gear with the same axis as another gear.
+
+    WormGear : Worm gear mechanism.
+
+    WormShaft : Worm shaft mechanism.
 
     Belt : Move texture UV on X axis.
-
-    Chain : Move and rotate base on anchor curve.
-
-    DynamicChain : Move and rotate base on dynamic anchor curve.
-
-    RollerChain : Constitute of rollers and chain piece, Move and rotate
-    base on anchor curve.
-
-    DynamicRollerChain : Constitute of rollers and chain piece, Move and
-    rotate base on dynamic anchor curve.
 
     LinearVibrator : Reciprocating motion on Z axis.
 
@@ -42,30 +41,9 @@
     Transmission : All mechanisms of the Transmission driven by
     proportional velocity.
 
-    WormGear : Worm gear mechanism.
+    Engine : Unified engine drive all mechanisms. 
 
-    Engine : Unified drive all mechanisms. 
-
-    Damper : Simulate engine startup acceleration and stop deceleration.
---------------------------------------------------------------------------
-  [Usage]
-    Reference the prefabs and demos to binding mechanical drive in your
-    project and use the components.
-    
-    Use the Anchor Editor to help you create the anchors of chain.
-    Create a empty gameobject as chain root and attach the Chain
-    component.
-    Create a empty child gameobject of chain root as anchor root and
-    set it to "Anchor Root" parameter of Chain component.
-    Click the "Anchor Editor" button in Chain component Inspector to
-    open the editor window and use it to create chain anchors.
-
-    Use the Node Editor to help you create nodes of chain.
-    Create a empty child gameobject of chain root as node root and
-    set it to "Node Root" parameter of Chain component.
-    Set your prefab of node to "Node Prefab" parameter of Chain.
-    If you already create chain anchors, use the Node Editor in chain
-    component Inspector to create chain nodes.
+    Differential : Ordinary differential.
 --------------------------------------------------------------------------
   [Suggest]
     The radius of gear should be set precisely.
@@ -75,9 +53,6 @@
 
     Make sure the gear engages perfectly with the worm when building
     model.
-
-    Create smooth track anchors as much as possible, the "count" and
-    "space" of chain should be set reasonably.
 
     The amplitude radius of CentrifugalVibrator or LinearVibrator
     usually set a small value.
@@ -90,8 +65,8 @@
     you.
 --------------------------------------------------------------------------
   [Resource]
-    https://github.com/mogoson/MGS-Machinery.
+    https://github.com/mogoson/MGS-MechanicalDrive.
 --------------------------------------------------------------------------
   [Contact]
-    If you have any questions, feel free to contact me at mogoson@qq.com.
+    If you have any questions, feel free to contact me at mogoson@outlook.com.
 --------------------------------------------------------------------------

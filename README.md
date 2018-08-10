@@ -5,30 +5,32 @@
 - Unity plugin for binding mechanical drive in scene.
 
 ## Demand
-- Binding Mesh Gear.
-- Binding proportional velocity mechanism.
+- Binding mesh Gear.
 - Binding worm gear.
 - Binding belt flywheel.
-- Binding chain gear.
+- Binding vibrator.
+- Binding differential.
+- Binding transmission.
 
 ## Environment
 - Unity 5.0 or above.
 - .Net Framework 3.0 or above.
 
 ## Achieve
-- Gear : Rotate around Z axis.
+- Gear : Gear rotate around axis Z.
+- Axle : Axle rotate around axis Z.
+- CoaxialGear : Coaxial gear with the same axis as another gear.
+- WormGear : Worm gear mechanism.
+- WormShaft : Worm shaft mechanism.
 - Belt : Move texture UV on X axis.
-- Chain : Move and rotate base on anchor curve.
-- DynamicChain : Move and rotate base on dynamic anchor curve.
-- RollerChain : Constitute of rollers and chain piece, Move and rotate base on anchor curve.
-- DynamicRollerChain : Constitute of rollers and chain piece, Move and rotate base on dynamic anchor curve.
 - LinearVibrator : Reciprocating motion on Z axis.
 - CentrifugalVibrator : Eccentric motion around Z axis.
-- Synchronizer : All mechanisms of the synchronizer driven by same velocity.
-- Transmission : All mechanisms of the Transmission driven by proportional velocity.
-- WormGear : Worm gear mechanism.
-- Engine : Unified drive all mechanisms. 
-- Damper : Simulate engine startup acceleration and stop deceleration.
+- Synchronizer : All mechanisms of the synchronizer driven by same
+   velocity.
+- Transmission : All mechanisms of the Transmission driven by
+   proportional velocity.
+- Engine : Unified engine drive all mechanisms. 
+- Differential : Ordinary differential.
 
 ## Demo
 - Prefabs in the path "MGS-MechanicalDrive/Prefabs" provide reference to you.
@@ -64,4 +66,4 @@
 ![NodeEditor](./Attachments/README_Image/NodeEditor.gif)
 
 ## Contact
-- If you have any questions, feel free to contact me at mogoson@qq.com.
+- If you have any questions, feel free to contact me at mogoson@outlook.com.

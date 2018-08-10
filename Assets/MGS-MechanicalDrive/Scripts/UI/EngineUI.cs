@@ -14,6 +14,7 @@ using UnityEngine;
 
 namespace Mogoson.Machinery
 {
+    [AddComponentMenu("Mogoson/Machinery/EngineUI")]
     [RequireComponent(typeof(Engine))]
     public class EngineUI : MonoBehaviour
     {
