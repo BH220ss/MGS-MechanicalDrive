@@ -35,21 +35,21 @@
 - “MGS-MechanicalDrive/Scenes”目录下存有上述机械传动绑定的演示案例，供读者参考。
 
 ## 预览
-- MeshGears_E
+- Mesh Gears
 
-![MeshGears_E](./Attachments/README_Image/MeshGears_E.gif)
+![Mesh Gears](./Attachments/README_Image/MeshGears_E.gif)
 
-- MeshGears_C
+- Mesh Gears
 
-![MeshGears_C](./Attachments/README_Image/MeshGears_C.gif)
+![Mesh Gears](./Attachments/README_Image/MeshGears_C.gif)
 
 - Belt
 
 ![Belt](./Attachments/README_Image/Belt.gif)
 
-- WormGear
+- Worm Gear
 
-![WormGear](./Attachments/README_Image/WormGear.gif)
+![Worm Gear](./Attachments/README_Image/WormGear.gif)
 
 - Vibrosieve
 

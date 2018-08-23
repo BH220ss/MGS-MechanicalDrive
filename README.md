@@ -37,21 +37,21 @@
 - Demos in the path "MGS-MechanicalDrive/Scenes" provide reference to you.
 
 ## Preview
-- MeshGears_E
+- Mesh Gears
 
-![MeshGears_E](./Attachments/README_Image/MeshGears_E.gif)
+![Mesh Gears](./Attachments/README_Image/MeshGears_E.gif)
 
-- MeshGears_C
+- Mesh Gears
 
-![MeshGears_C](./Attachments/README_Image/MeshGears_C.gif)
+![Mesh Gears](./Attachments/README_Image/MeshGears_C.gif)
 
 - Belt
 
 ![Belt](./Attachments/README_Image/Belt.gif)
 
-- WormGear
+- Worm Gear
 
-![WormGear](./Attachments/README_Image/WormGear.gif)
+![Worm Gear](./Attachments/README_Image/WormGear.gif)
 
 - Vibrosieve
 
