@@ -40,7 +40,9 @@ namespace Mogoson.Machinery
             EditorGUI.BeginChangeCheck();
             DrawDefaultInspector();
             if (EditorGUI.EndChangeCheck())
+            {
                 Target.radius = Mathf.Max(Mathf.Epsilon, Target.radius);
+            }
         }
         #endregion
     }

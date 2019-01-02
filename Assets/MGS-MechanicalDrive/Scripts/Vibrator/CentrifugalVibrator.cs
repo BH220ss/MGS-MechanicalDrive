@@ -51,9 +51,10 @@ namespace Mogoson.Machinery
         protected Vector3 GetLocalDirection(Vector3 direction)
         {
             if (transform.parent)
+            {
                 return transform.parent.InverseTransformVector(direction);
-            else
-                return direction;
+            }
+            return direction;
         }
         #endregion
 
@@ -85,7 +86,9 @@ namespace Mogoson.Machinery
         public void CoaxeTo(ICoaxeMechanism coaxe)
         {
             if (coaxe == null || coaxe == this.coaxe)
+            {
                 return;
+            }
             else
             {
                 CoaxeBreak();

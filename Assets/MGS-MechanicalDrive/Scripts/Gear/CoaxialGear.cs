@@ -32,9 +32,13 @@ namespace Mogoson.Machinery
             var linear = velocity;
 
             if (type == DriveType.Linear)
+            {
                 angular = velocity / radius * Mathf.Rad2Deg;
+            }
             else
+            {
                 linear = velocity * Mathf.Deg2Rad * radius;
+            }
 
             DriveCoaxes(angular);
             DriveEngages(-linear);

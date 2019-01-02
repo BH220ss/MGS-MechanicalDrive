@@ -43,10 +43,12 @@ namespace Mogoson.Machinery
         {
             get
             {
+                var axis = transform.forward;
                 if (transform.parent)
-                    return transform.parent.InverseTransformDirection(transform.forward);
-                else
-                    return transform.forward;
+                {
+                    axis = transform.parent.InverseTransformDirection(axis);
+                }
+                return axis;
             }
         }
 
@@ -93,7 +95,9 @@ namespace Mogoson.Machinery
         public void EngageTo(IEngageMechanism engage)
         {
             if (engage == null || engage == this.engage)
+            {
                 return;
+            }
             else
             {
                 EngageBreak();

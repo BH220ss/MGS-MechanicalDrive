@@ -37,9 +37,13 @@ namespace Mogoson.Machinery
             GUILayout.BeginHorizontal();
             GUILayout.Space(left);
             if (GUILayout.Button("Turn On Engine"))
+            {
                 engine.TurnOn();
+            }
             if (GUILayout.Button("Turn Off Engine"))
+            {
                 engine.TurnOff();
+            }
             GUILayout.EndHorizontal();
         }
         #endregion

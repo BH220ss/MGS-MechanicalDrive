@@ -101,7 +101,9 @@ namespace Mogoson.Machinery
         {
             var Mechanism = engage as Mechanism;
             if (Mechanism && !engages.Contains(Mechanism))
+            {
                 engages.Add(Mechanism);
+            }
         }
 
         /// <summary>
@@ -112,7 +114,9 @@ namespace Mogoson.Machinery
         {
             var mechanism = engage as Mechanism;
             if (engages.Contains(mechanism))
+            {
                 engages.Remove(mechanism);
+            }
         }
 
         /// <summary>
@@ -122,7 +126,9 @@ namespace Mogoson.Machinery
         public void EngageTo(IEngageMechanism engage)
         {
             if (engage == null || engage == this.engage)
+            {
                 return;
+            }
             else
             {
                 EngageBreak();

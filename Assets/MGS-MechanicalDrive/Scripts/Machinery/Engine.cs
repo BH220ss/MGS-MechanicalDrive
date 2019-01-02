@@ -45,14 +45,22 @@ namespace Mogoson.Machinery
         protected virtual void Update()
         {
             if (Mathf.Abs(rpm - RPM) <= threshold)
+            {
                 rpm = RPM;
+            }
             else
+            {
                 rpm = Mathf.Lerp(rpm, RPM, damper * Time.deltaTime);
+            }
 
             if (rpm == 0)
+            {
                 enabled = false;
+            }
             else
+            {
                 axle.Drive(rpm * 6, DriveType.Angular);
+            }
         }
         #endregion
 

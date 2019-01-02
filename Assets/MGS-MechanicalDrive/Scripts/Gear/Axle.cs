@@ -89,7 +89,9 @@ namespace Mogoson.Machinery
         {
             var mechanism = coaxe as Mechanism;
             if (mechanism && !coaxes.Contains(mechanism))
+            {
                 coaxes.Add(mechanism);
+            }
         }
 
         /// <summary>
@@ -100,7 +102,9 @@ namespace Mogoson.Machinery
         {
             var mechanism = coaxe as Mechanism;
             if (coaxes.Contains(mechanism))
+            {
                 coaxes.Remove(mechanism);
+            }
         }
 
         /// <summary>
@@ -110,7 +114,9 @@ namespace Mogoson.Machinery
         public void CoaxeTo(ICoaxeMechanism coaxe)
         {
             if (coaxe == null || coaxe == this.coaxe)
+            {
                 return;
+            }
             else
             {
                 CoaxeBreak();

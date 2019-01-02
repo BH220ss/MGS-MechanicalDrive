@@ -87,9 +87,13 @@ namespace Mogoson.Machinery
             var linear = velocity;
 
             if (type == DriveType.Linear)
+            {
                 angular = velocity / radius * Mathf.Rad2Deg;
+            }
             else
+            {
                 linear = velocity * Mathf.Deg2Rad * radius;
+            }
 
             transform.Rotate(Vector3.forward, angular * Time.deltaTime, Space.Self);
             DriveCoaxes(angular);
@@ -104,7 +108,9 @@ namespace Mogoson.Machinery
         {
             var Mechanism = engage as Mechanism;
             if (Mechanism && !engages.Contains(Mechanism))
+            {
                 engages.Add(Mechanism);
+            }
         }
 
         /// <summary>
@@ -115,7 +121,9 @@ namespace Mogoson.Machinery
         {
             var mechanism = engage as Mechanism;
             if (engages.Contains(mechanism))
+            {
                 engages.Remove(mechanism);
+            }
         }
 
         /// <summary>
@@ -125,7 +133,9 @@ namespace Mogoson.Machinery
         public void EngageTo(IEngageMechanism engage)
         {
             if (engage == null || engage == this.engage)
+            {
                 return;
+            }
             else
             {
                 EngageBreak();
