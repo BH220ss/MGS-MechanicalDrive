@@ -28,6 +28,9 @@ namespace Mogoson.Machinery
         /// </summary>
         protected float rpm = 0;
 
+        /// <summary>
+        /// Threshold of lerp rpm.
+        /// </summary>
         protected float threshold = 1;
 
         /// <summary>
